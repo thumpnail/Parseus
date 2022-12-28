@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "OCb4t/xCqEvIpEe4fQK0QGxfhakeASNBcndX2nt3e8/Jb+d4NoLfY1Kal/wiUyzLYwDka76IHZBw6XiulLA/5A==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\fried\\OneDrive\\Dokumente\\Code\\FreeCode\\C# Scripts\\TESTAST\\TESTAST.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\fried\\.nuget\\packages\\newtonsoft.json\\13.0.2\\newtonsoft.json.13.0.2.nupkg.sha512"
+  ],
+  "logs": []
+}

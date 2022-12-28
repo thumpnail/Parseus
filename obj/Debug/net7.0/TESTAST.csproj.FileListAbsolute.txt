@@ -1,0 +1,17 @@
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.csproj.AssemblyReference.cache
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.AssemblyInfoInputs.cache
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.AssemblyInfo.cs
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.csproj.CoreCompileInputs.cache
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\bin\Debug\net7.0\TESTAST.exe
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\bin\Debug\net7.0\TESTAST.deps.json
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\bin\Debug\net7.0\TESTAST.runtimeconfig.json
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\bin\Debug\net7.0\TESTAST.dll
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\bin\Debug\net7.0\TESTAST.pdb
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.dll
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\refint\TESTAST.dll
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.pdb
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.genruntimeconfig.cache
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\ref\TESTAST.dll
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\bin\Debug\net7.0\Newtonsoft.Json.dll
+C:\Users\fried\OneDrive\Dokumente\Code\FreeCode\C# Scripts\TESTAST\obj\Debug\net7.0\TESTAST.csproj.CopyComplete
