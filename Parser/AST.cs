@@ -24,8 +24,12 @@ public class AbstractSyntaxTree {
 	public AstNode root;
 	public LexerResult Result;
 	public ArrayReader<TokenElement> ar;
+	public Stack<int> stack_ref;
+	public Stack<AstNode> stack;
 	public AbstractSyntaxTree(LexerResult result) {
 		Result = result;
 		ar = new ArrayReader<TokenElement>(result.result.ToArray());
+		stack_ref = new();
+		stack = new();
 	}
 }
