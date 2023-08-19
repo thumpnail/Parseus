@@ -1,3 +1,8 @@
+# Information
+__There might be happening an whole rewrite of this "lib".__
+__Currently finishing up a single file, regex based, Lexer.__
+__Might add a simple parser here too.__
+
 # Parseus
 Experimental Parser with Source to Ast to Source Code Generator
 
