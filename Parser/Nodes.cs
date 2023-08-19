@@ -7,7 +7,7 @@ public static partial class ParserModule {
     const byte INTERNALTYPE_UNKOWN = 0, INTERNALTYPE_LITERAL = 1, INTERNALTYPE_REGEXEXPRESSION = 2;
 
     public interface IRuleChild {
-        public void Parse();
+        public void Parse(AbstractSyntaxTree ctx);
     }
 
     public struct Rule_t : IRuleChild {
@@ -18,7 +18,7 @@ public static partial class ParserModule {
             this.name = name;
             this.nodeType = tk;
         }
-        public void Parse() { throw new NotImplementedException(); }
+        public void Parse(AbstractSyntaxTree ctx) { throw new NotImplementedException(); }
     }
     public static Rule_t Rule(string name, Token NodeType, params Alt_t[] elements) { return new Rule_t(name, NodeType, elements); }
     public static Rule_t Rule(string name, params Alt_t[] elements) { return new Rule_t(name, -1, elements); }
@@ -26,28 +26,28 @@ public static partial class ParserModule {
     public struct Alt_t : IRuleChild {
         Group_t[] childs;
         public Alt_t(Group_t[] groups) { this.childs = childs; }
-        public void Parse() { throw new NotImplementedException(); }
+        public void Parse(AbstractSyntaxTree ctx) { throw new NotImplementedException(); }
     }
     public static Alt_t Alt(params Group_t[] groups) { return new Alt_t(groups); }
 
     public struct Group_t : IRuleChild {
         IRuleChild[] childs;
         public Group_t(IRuleChild[] childs) { this.childs = childs; }
-        public void Parse() { throw new NotImplementedException(); }
+        public void Parse(AbstractSyntaxTree ctx) { throw new NotImplementedException(); }
     }
     public static Group_t Group(params IRuleChild[] childs) { return new Group_t(childs); }
 
     public struct Opt_t : IRuleChild {
         IRuleChild[] childs;
         public Opt_t(IRuleChild[] childs) { this.childs = childs; }
-        public void Parse() { throw new NotImplementedException(); }
+        public void Parse(AbstractSyntaxTree ctx) { throw new NotImplementedException(); }
     }
     public static Opt_t Opt(params IRuleChild[] childs) { return new Opt_t(childs); }
 
     public struct Repeat_t : IRuleChild {
         IRuleChild[] childs;
         public Repeat_t(IRuleChild[] childs) { this.childs = childs; }
-        public void Parse() { throw new NotImplementedException(); }
+        public void Parse(AbstractSyntaxTree ctx) { throw new NotImplementedException(); }
     }
     public static Repeat_t Repeat(params IRuleChild[] childs) { return new Repeat_t(childs); }
 
@@ -60,7 +60,7 @@ public static partial class ParserModule {
             this.value = value;
             this.type = type;
         }
-        public void Parse() { throw new NotImplementedException(); }
+        public void Parse(AbstractSyntaxTree ctx) { throw new NotImplementedException(); }
     }
     public static Literal_t Lit(Token tk, string value) { return new Literal_t(tk, value, INTERNALTYPE_LITERAL); }
     public static Literal_t Lit(string value) { return new Literal_t(-1, value, INTERNALTYPE_LITERAL); }
@@ -71,7 +71,7 @@ public static partial class ParserModule {
         InternalType it;
         string value;
         public RefRule_t(string value) { this.value = value; }
-        public void Parse() { throw new NotImplementedException(); }
+        public void Parse(AbstractSyntaxTree ctx) { throw new NotImplementedException(); }
     }
     public static RefRule_t RefRule(string value) { return new RefRule_t(value); }
 }

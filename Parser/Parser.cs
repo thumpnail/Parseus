@@ -12,10 +12,10 @@ public static partial class ParserModule {
             this.rules = rules;
         }
         public AbstractSyntaxTree Parse(LexerResult result) {
-            var ast = new AbstractSyntaxTree(result);
+            var astcontext = new AbstractSyntaxTree(result);
             //Actual Parsing...
-            rules.First().Parse(ast);
-            return ast;
+            rules.First().Parse(astcontext); //ast works more like a context
+            return astcontext;
         }
         public override string ToString() {
             return JsonSerializer.Serialize(this);
