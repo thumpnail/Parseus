@@ -56,9 +56,13 @@ The [Preprocessor](https://github.com/thumpnail/Parseus/blob/main/Lex.cs#L181) t
 
 ## Lexer
 The [Lexer](https://github.com/thumpnail/Parseus/blob/main/Lex.cs#L293) goes over the wordlist and assigns a token to each one based on the Dictionaries provided.
+
 The New [Lexer](https://github.com/thumpnail/Parseus/blob/Parseus-Rework/Lexer/Lexer.cs) which is generic, simple, drop in capable(thus single file) and regex based.
+
 That one is Extremely simple.
+
 I actually didnt check for Performance, so it might be actually pretty bad.
+
 
 ## Ast
 The [Ast](https://github.com/thumpnail/Parseus/blob/main/Ast.cs) contains the structs for representing the Abstract Syntax Tree, like expressions and Statemnts.
