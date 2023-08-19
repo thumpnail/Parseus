@@ -12,21 +12,10 @@ public static class Program {
     }
 
     public static void Main(string[] args) {
-        Console.WriteLine("Hello World");
-        var lexer = CreateLexer();
-        var lexerResult = lexer.Lex(
-            "let somename := \"Hello World\";" + Environment.NewLine+
-            "//"+"this is a comment"+Environment.NewLine+
-            "let somenum : 12.21;"+Environment.NewLine
-        );
-        lexerResult.result.ForEach(element => {
-            Console.WriteLine($"({element.token}, {element.value}):({element.index}, {element.length})");
-        });
-    }
-    private static Lexer<Token> CreateLexer() {
-        var lexer =
-            new Lexer<Token>()
-                // Keywords
+        //Source
+        var src = "let somename := \"Hello World\";" + Environment.NewLine+"//"+"this is a comment"+Environment.NewLine+"let somenum : 12.21;"+Environment.NewLine;
+        //Creating a Lexer Instance
+        var lexer = new Lexer<Token>()
                 .skipable(Token.COMMENT, @"\/\/.*")
                 .child(Token.EOL, Environment.NewLine)
                 .child(Token.CLASS, "class")
@@ -38,7 +27,12 @@ public static class Program {
                 .child(Token.IDENTIFIER, "[a-zA-Z_][a-zA-Z0-9_]*")
                 .child(Token.STRING, @"'(\\.|[^'\\])*'", "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"")
                 .child(Token.NUMBER, @"-?(0[xX][0-9a-fA-F]+|\d*[,.]\d+([eE][+-]?\d+)?|\d+([,.]\d*)?([eE][+-]?\d+)?)");
-        return lexer;
+
+        var lexerResult = lexer.Lex(src);
+
+        lexerResult.result.ForEach(element => {
+            Console.WriteLine($"({element.token}, {element.value}):({element.index}, {element.length})");
+        });
     }
 }
 ```
