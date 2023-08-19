@@ -14,6 +14,7 @@ public static partial class ParserModule {
         public AbstractSyntaxTree Parse(LexerResult result) {
             var astcontext = new AbstractSyntaxTree(result);
             //Actual Parsing...
+            //FIX: Still throws NotImplemented Exceptions
             rules.First().Parse(astcontext); //ast works more like a context
             return astcontext;
         }
