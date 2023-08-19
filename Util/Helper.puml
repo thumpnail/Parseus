@@ -1,0 +1,11 @@
+@startuml
+class Helper <<static>> {
+    + {static} Strip(value:string) : string
+    + {static} Arrayify(str:string) : string[]
+    + {static} ToString(obj:object) : string
+    + {static} ContainsOnlyNumbers(str:string) : bool
+    + {static} ContainsNumbers(str:string) : bool
+    + {static} ContainsOnlyLetters(str:string) : bool
+    + {static} ContainsLetters(str:string) : bool
+}
+@enduml

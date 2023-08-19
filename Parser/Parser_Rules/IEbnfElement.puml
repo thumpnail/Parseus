@@ -1,0 +1,9 @@
+@startuml
+class ParserModule <<static>> <<partial>> {
+}
+interface "IEbnfElement`1"<T> {
+    + ParseElement(rl:RuleList<T>, ast:AbstractSyntaxTree<T>) : AstNode<T>
+    + HasToken(t:T) : bool
+}
+ParserModule +-- "IEbnfElement`1"
+@enduml

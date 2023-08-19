@@ -1,0 +1,11 @@
+@startuml
+class ParserModule <<static>> <<partial>> {
+    + {static} Repeat(childs:IEbnfElement<T>[]) : Repeat_t<T>
+}
+class "Repeat_t`1"<T> <<struct>> {
+    + childs : IEbnfElement<T>[]
+    + ParseElement(ar:ArrayReader<TokenElement<T>>) : AstNode<T>
+}
+ParserModule +-- "Repeat_t`1"
+"IEbnfElement`1" "<T>" <|-- "Repeat_t`1"
+@enduml

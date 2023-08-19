@@ -1,0 +1,13 @@
+@startuml
+class ParserModule <<static>> <<partial>> {
+    + {static} Literal(value:string, ttype:T) : Literal_t<T>
+}
+class "Literal_t`1"<T> <<struct>> {
+    + ttype : T
+    + value : string
+    + HasToken(t:T) : bool
+    + ParseElement(ar:ArrayReader<TokenElement<T>>) : AstNode<T>
+}
+ParserModule +-- "Literal_t`1"
+"IEbnfElement`1" "<T>" <|-- "Literal_t`1"
+@enduml

@@ -1,0 +1,8 @@
+@startuml
+class ParserModule <<static>> <<partial>> {
+}
+class "RuleParser`1"<T> {
+    + RuleParser(rules:Rule_t<T>[])
+}
+ParserModule +-- "RuleParser`1"
+@enduml

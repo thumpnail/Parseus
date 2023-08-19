@@ -1,0 +1,12 @@
+@startuml
+class ParserModule <<static>> <<partial>> {
+}
+class "ParserException`1"<T> {
+    + <<override>> Message : string <<get>>
+    + <<override>> Data : IDictionary <<get>>
+    + <<override>> Source : string? <<get>> <<set>>
+    + ParserException()
+}
+ParserModule +-- "ParserException`1"
+Exception <|-- "ParserException`1"
+@enduml

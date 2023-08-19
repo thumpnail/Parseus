@@ -1,0 +1,14 @@
+@startuml
+class ParserModule <<static>> <<partial>> {
+}
+class "RuleList`1"<T> <<struct>> {
+    - rm : RuleParser<T>
+    - rules : Rule_t<T>[]
+    + RuleList(rules:Rule_t<T>[])
+    + Parse(result:LexerResult<T>) : AbstractSyntaxTree<T>
+    + <<override>> ToString() : string
+    - RecParse(ast:AbstractSyntaxTree<T>) : AstNode<T>
+    - StartParse(ast:AbstractSyntaxTree<T>) : AstNode<T>?
+}
+ParserModule +-- "RuleList`1"
+@enduml

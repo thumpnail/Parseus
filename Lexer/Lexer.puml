@@ -1,0 +1,27 @@
+@startuml
+class "TokenElement`1"<T> <<struct>> {
+    + token : T
+    + value : string
+    + index : int
+    + length : int
+    + TokenElement(token:T, value:string, index:int, length:int)
+}
+class "Category`1"<T> <<struct>> {
+    + token : T
+    + literals : string[]
+    + Category(token:T, literals:string[])
+}
+class "LexerResult`1"<T> <<struct>> {
+    + result : List<TokenElement<T>>
+    + source : string
+    + LexerResult(source:string, result:List<TokenElement<T>>)
+}
+class "Lexer`1"<T> {
+    - cats : List<Category<T>>
+    - source : string
+    - result : List<TokenElement<T>>
+    + Lexer()
+    + child(token:T, literals:string[]) : Lexer<T>
+    + Lex(source:string) : LexerResult<T>
+}
+@enduml
