@@ -2,7 +2,7 @@
 __There might be happening an whole rewrite of this "lib".__
 __Currently finishing up a single file, regex based, Lexer.__
 __Might add a simple parser here too.__
-## Sample of Usage for the lexer in work
+## Sample of Usage of the lexer in work
 ```csharp
 public static class Program {
     public enum Token { CLASS, STRUCT, FNC, LET, VAR, NUMBER, STRING, IDENTIFIER,
