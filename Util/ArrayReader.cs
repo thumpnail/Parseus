@@ -1,5 +1,5 @@
 ﻿using System.Text;
-namespace ParseKit.Util;
+namespace Parseus.Util;
 /// <summary>
 /// Generic Class for Array based parsing.
 /// </summary>

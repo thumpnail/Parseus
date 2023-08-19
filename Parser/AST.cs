@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using ParseKit.Lexer;
-using ParseKit.Util;
+using Parseus.Lexer;
+using Parseus.Util;
 
-namespace ParseKit.Parser;
+namespace Parseus.Parser;
 
 public struct AstNode  {
 	//place to save stuff, like type, and things that needs to be saved dynamicly
@@ -24,12 +24,12 @@ public struct AstNode  {
 	}
 }
 
-public class AbstractSyntaxTree  {
+public class AbstractSyntaxTree<T> where T : Enum {
 	public AstNode root;
-	public LexerResult Result;
-	public ArrayReader ar;
-	public AbstractSyntaxTree(LexerResult result) {
+	public LexerResult<T> Result;
+	public ArrayReader<TokenElement<T>> ar;
+	public AbstractSyntaxTree(LexerResult<T> result) {
 		Result = result;
-		ar = new ArrayReader(result.result.ToArray());
+		ar = new ArrayReader<TokenElement<T>>(result.result.ToArray());
 	}
 }

@@ -1,4 +1,4 @@
-﻿namespace ParseKit.Util; 
+﻿namespace Parseus.Util; 
 
 public static class Helper {
     public static string Strip(string value) {

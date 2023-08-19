@@ -1,19 +1,18 @@
-﻿using ParseKit.Lexer;
+﻿using Parseus.Lexer;
 using System.Text.Json;
-using ParseKit.Util;
-using static ParseKit.Parser.ParserModule;
+using Parseus.Util;
+using static Parseus.Parser.ParserModule;
 
-namespace ParseKit.Parser;
+namespace Parseus.Parser;
 
-public static partial class ParserModule  {    
+public static partial class ParserModule {    
     public struct RuleList {
-        private RuleParser rm;
         private Rule_t[] rules;
         public RuleList(params Rule_t[] rules) {
             this.rules = rules;
         }
-        public AbstractSyntaxTree Parse(LexerResult result)  {
-            var ast = new AbstractSyntaxTree(result);
+        public AbstractSyntaxTree<T> Parse<T>(LexerResult<T> result) where T : Enum {
+            var ast = new AbstractSyntaxTree<T>(result);
             return ast;
         }
         public override string ToString() {
@@ -22,14 +21,14 @@ public static partial class ParserModule  {
         //
         //======================================================================
         //
-        private AstNode RecParse(AbstractSyntaxTree ast)  {
+        private AstNode RecParse<T>(AbstractSyntaxTree<T> ast) where T: Enum  {
             AstNode node;
             while (ast.ar.IsEOF()) {
                 Console.WriteLine(ast.ar.Consume());
             }
             return default;
         }
-        private AstNode? StartParse(AbstractSyntaxTree ast)  {
+        private AstNode? StartParse<T>(AbstractSyntaxTree<T> ast) where T: Enum {
             return null;
         }
     }

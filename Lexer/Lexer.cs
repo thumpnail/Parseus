@@ -1,6 +1,6 @@
 ﻿using System.Text.RegularExpressions;
-namespace ParseKit.Lexer;
-public struct TokenElement<T> where T : Enum {
+namespace Parseus.Lexer;
+public struct TokenElement<T> {
     public T token;
     public string value;
     public int index;
@@ -16,7 +16,7 @@ public struct TokenElement<T> where T : Enum {
 }
 
 //Contains token and string/regex for that token
-struct Category<T> where T : Enum {
+struct Category<T> {
     public T token;
     public bool isSkipable = false;
     public string[] literals;
@@ -31,7 +31,7 @@ struct Category<T> where T : Enum {
     }
 }
 
-public struct LexerResult<T> where T : Enum {
+public struct LexerResult<T> {
     public List<TokenElement<T>> result;
     public string source;
     public LexerResult(string source, List<TokenElement<T>> result) {
@@ -39,7 +39,7 @@ public struct LexerResult<T> where T : Enum {
         this.source = source;
     }
 }
-public class Lexer<T> where T : Enum {
+public class Lexer<T> {
     private List<Category<T>> cats;
     private string source;
     private List<TokenElement<T>> result;
