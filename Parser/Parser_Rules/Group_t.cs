@@ -4,19 +4,19 @@ using ParseKit.Util;
 namespace ParseKit.Parser;
 
 public static partial class ParserModule {
-    public static Group_t<T> Group<T>(params IEbnfElement<T>[] childs) where T : Enum {
-        return new Group_t<T>() { childs = childs };
+    public static Group_t Group(params IEbnfElement[] childs)  {
+        return new Group_t() { childs = childs };
     }
 
-    public struct Group_t<T> : IEbnfElement<T> where T : Enum {
-        public IEbnfElement<T>[] childs;
+    public struct Group_t : IEbnfElement  {
+        public IEbnfElement[] childs;
 
 		public bool HasToken(T t) {
             if(childs.First().HasToken(t)) return true;
             return false;
 		}
 
-		public AstNode<T> ParseElement(ref ArrayReader<TokenElement<T>> ar) {
+		public AstNode ParseElement(ref ArrayReader ar) {
             throw new NotImplementedException();
         }
         

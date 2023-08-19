@@ -5,7 +5,7 @@ using ParseKit.Util;
 namespace ParseKit.Parser;
 
 public static partial class ParserModule {
-    public class ParserException<T> : Exception where T : Enum {
+    public class ParserException : Exception  {
         public override string Message { get; }
         public override IDictionary Data { get; }
         public override string? Source { get; set; }

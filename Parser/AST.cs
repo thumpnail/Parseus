@@ -4,15 +4,15 @@ using ParseKit.Util;
 
 namespace ParseKit.Parser;
 
-public struct AstNode<T> where T : Enum {
+public struct AstNode  {
 	//place to save stuff, like type, and things that needs to be saved dynamicly
 	//public Dictionary<string, string> attributes;
 	//public Dictionary<string, bool> flags;
-	public T? @type;
+	public int? @type;
 	public string value;
 
 	//Child Nodes
-	public List<AstNode<T>> childs;
+	public List<AstNode> childs;
 	public AstNode() {
 		childs = new();
 		type = default;
@@ -24,12 +24,12 @@ public struct AstNode<T> where T : Enum {
 	}
 }
 
-public class AbstractSyntaxTree<T> where T: Enum {
-	public AstNode<T> root;
-	public LexerResult<T> Result;
-	public ArrayReader<TokenElement<T>> ar;
-	public AbstractSyntaxTree(LexerResult<T> result) {
+public class AbstractSyntaxTree  {
+	public AstNode root;
+	public LexerResult Result;
+	public ArrayReader ar;
+	public AbstractSyntaxTree(LexerResult result) {
 		Result = result;
-		ar = new ArrayReader<TokenElement<T>>(result.result.ToArray());
+		ar = new ArrayReader(result.result.ToArray());
 	}
 }

@@ -5,21 +5,15 @@ using static ParseKit.Parser.ParserModule;
 
 namespace ParseKit.Parser;
 
-public static partial class ParserModule {    
-    public struct RuleList<T> where T: Enum {
-        private RuleParser<T> rm;
-        private Rule_t<T>[] rules;
-        public RuleList(params Rule_t<T>[] rules) {
+public static partial class ParserModule  {    
+    public struct RuleList {
+        private RuleParser rm;
+        private Rule_t[] rules;
+        public RuleList(params Rule_t[] rules) {
             this.rules = rules;
         }
-        public AbstractSyntaxTree<T> Parse<T>(LexerResult<T> result) where T : Enum {
-            var ast = new AbstractSyntaxTree<T>(result);
-            //Build the Ast Based on the Rules
-            var r = rules.ToList().ToDictionary(rule => rule.name);
-            while(ast.ar.IsEOF()) {
-                
-            }
-            ast.root = r[rules[0].name].ParseElement(ref this, (AbstractSyntaxTree<T>)ast);
+        public AbstractSyntaxTree Parse(LexerResult result)  {
+            var ast = new AbstractSyntaxTree(result);
             return ast;
         }
         public override string ToString() {
@@ -28,14 +22,14 @@ public static partial class ParserModule {
         //
         //======================================================================
         //
-        private AstNode<T> RecParse<T>(AbstractSyntaxTree<T> ast) where T: Enum {
-            AstNode<T> node;
+        private AstNode RecParse(AbstractSyntaxTree ast)  {
+            AstNode node;
             while (ast.ar.IsEOF()) {
                 Console.WriteLine(ast.ar.Consume());
             }
             return default;
         }
-        private AstNode<T>? StartParse<T>(AbstractSyntaxTree<T> ast) where T: Enum {
+        private AstNode? StartParse(AbstractSyntaxTree ast)  {
             return null;
         }
     }

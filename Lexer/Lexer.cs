@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-
+namespace ParseKit.Lexer;
 public struct TokenElement<T> where T : Enum {
     public T token;
     public string value;

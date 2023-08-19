@@ -4,13 +4,13 @@ using ParseKit.Util;
 namespace ParseKit.Parser;
 
 public static partial class ParserModule {
-    public static TK_t<T> TK<T>(T token) where T : Enum {
-        return new TK_t<T>() { token = token };
+    public static TK_t TK(int token)  {
+        return new TK_t() { token = token };
     }
 
-    public struct TK_t<T> : IEbnfElement<T> where T : Enum {
-        public T token;
-        public AstNode<T> ParseElement(ref ArrayReader<TokenElement<T>> ar) {
+    public struct TK_t : IEbnfElement {
+        public int token;
+        public AstNode ParseElement(ref ArrayReader ar) {
             throw new NotImplementedException();
         }
     }

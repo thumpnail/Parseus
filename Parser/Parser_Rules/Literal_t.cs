@@ -4,30 +4,30 @@ using ParseKit.Util;
 namespace ParseKit.Parser;
 
 public static partial class ParserModule {
-    public static Literal_t<T> Literal<T>(string value, T ttype = default(T)) where T : Enum {
-        return new Literal_t<T>() {
+    public static Literal_t Literal(string value, int ttype = 0)  {
+        return new Literal_t() {
             ttype = ttype,
             value = value
         };
     }
 
-    public struct Literal_t<T> : IEbnfElement<T> where T : Enum {
-        public T ttype;
+    public struct Literal_t : IEbnfElement {
+        public int ttype;
         public string value;
 
-		public bool HasToken(T t) {
+		public bool HasToken(int t) {
             if(ttype.Equals(t)) return true;
             return false;
 		}
 
-		public AstNode<T> ParseElement(ref ArrayReader<TokenElement<T>> ar) {
-            var node = new AstNode<T>();
+		public AstNode ParseElement(ref ArrayReader<int> ar) {
+            var node = new AstNode();
             if(ar.Peekc().token.Equals(ttype)) {
                 var tmp = ar.Consume();
                 node.type = tmp.token;
                 node.value = tmp.value;
             } else {
-                throw new ParserException<T>();
+                throw new ParserException();
             }
             return node;
         }
