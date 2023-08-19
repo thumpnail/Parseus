@@ -2,6 +2,47 @@
 __There might be happening an whole rewrite of this "lib".__
 __Currently finishing up a single file, regex based, Lexer.__
 __Might add a simple parser here too.__
+## Sample of Usage for the lexer in work
+```csharp
+public static class Program {
+    public enum Token { CLASS, STRUCT, FNC, LET, VAR, NUMBER, STRING, IDENTIFIER,
+        COMMENT,
+        SEMICOLON,
+        EOL
+    }
+
+    public static void Main(string[] args) {
+        Console.WriteLine("Hello World");
+        var lexer = CreateLexer();
+        var lexerResult = lexer.Lex(
+            "let somename := \"Hello World\";" + Environment.NewLine+
+            "//"+"this is a comment"+Environment.NewLine+
+            "let somenum : 12.21;"+Environment.NewLine
+        );
+        lexerResult.result.ForEach(element => {
+            Console.WriteLine($"({element.token}, {element.value}):({element.index}, {element.length})");
+        });
+    }
+    private static Lexer<Token> CreateLexer() {
+        var lexer =
+            new Lexer<Token>()
+                // Keywords
+                .skipable(Token.COMMENT, @"\/\/.*")
+                .child(Token.EOL, Environment.NewLine)
+                .child(Token.CLASS, "class")
+                .child(Token.STRUCT, "struct")
+                .child(Token.FNC, "fnc")
+                .child(Token.LET, "let")
+                .child(Token.VAR, "var")
+                .child(Token.SEMICOLON, ";")
+                .child(Token.IDENTIFIER, "[a-zA-Z_][a-zA-Z0-9_]*")
+                .child(Token.STRING, @"'(\\.|[^'\\])*'", "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"")
+                .child(Token.NUMBER, @"-?(0[xX][0-9a-fA-F]+|\d*[,.]\d+([eE][+-]?\d+)?|\d+([,.]\d*)?([eE][+-]?\d+)?)");
+        return lexer;
+    }
+}
+```
+
 
 # Parseus
 Experimental Parser with Source to Ast to Source Code Generator
