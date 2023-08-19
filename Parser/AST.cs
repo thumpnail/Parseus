@@ -4,15 +4,11 @@ using Parseus.Util;
 
 namespace Parseus.Parser;
 
-public struct AstNode  {
-	//place to save stuff, like type, and things that needs to be saved dynamicly
-	//public Dictionary<string, string> attributes;
-	//public Dictionary<string, bool> flags;
-	public int? @type;
+public struct AstNode {
+	public int? @type; // Node Type
 	public string value;
-
 	//Child Nodes
-	public List<AstNode> childs;
+	public List<int> childs;
 	public AstNode() {
 		childs = new();
 		type = default;
@@ -24,12 +20,12 @@ public struct AstNode  {
 	}
 }
 
-public class AbstractSyntaxTree<T> where T : Enum {
+public class AbstractSyntaxTree {
 	public AstNode root;
-	public LexerResult<T> Result;
-	public ArrayReader<TokenElement<T>> ar;
-	public AbstractSyntaxTree(LexerResult<T> result) {
+	public LexerResult Result;
+	public ArrayReader<TokenElement> ar;
+	public AbstractSyntaxTree(LexerResult result) {
 		Result = result;
-		ar = new ArrayReader<TokenElement<T>>(result.result.ToArray());
+		ar = new ArrayReader<TokenElement>(result.result.ToArray());
 	}
 }

@@ -21,7 +21,7 @@ class Program {
 			EQUALS = 11;
     }
 	static void Main(string[] args) {
-		var lexer = new Lexer<int>()
+		var lexer = new Lexer()
 			.skipable(Tk.COMMENT, @"\/\/.*")
             .child(Tk.EOL, Environment.NewLine)
             .child(Tk.CLASS, "class")
@@ -34,6 +34,7 @@ class Program {
             .child(Tk.STRING, @"'(\\.|[^'\\])*'", "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"")
             .child(Tk.NUMBER, @"-?(0[xX][0-9a-fA-F]+|\d*[,.]\d+([eE][+-]?\d+)?|\d+([,.]\d*)?([eE][+-]?\d+)?)");
 
+		//Parser
 		var parser = new RuleList(
 			//program: { assign-statement }; => program: ( { assign-statement } );
 			Rule("program", Tk.CLASS, Alt(
@@ -45,16 +46,17 @@ class Program {
 					Group(Lit(Tk.LET)),
 					Group(Lit(Tk.VAR))
 				),
-				RefRule("ID"),
+				Lit(Tk.IDENTIFIER),
 				// Checks for token on parsing 
 				Lit(Tk.EQUALS), // since this is not string dependent, we can ignore tokens and maybe even a lexer in that regard
 				// finds subrule and parses it
-				RefRule("STRING"), 
+				Lit(Tk.STRING), 
 				// Checks just for the literal
-				Lit(";")) 
+				Lit(";"))
 			))
 		);
-
+		//Parse It
 		var lexres = lexer.Lex("let abc = \"Hello World\";");
+		parser.Parse(lexres);
 	}
 }
