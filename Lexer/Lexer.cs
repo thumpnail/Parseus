@@ -1,28 +1,33 @@
-﻿using System.Reflection;
-using System.Text.RegularExpressions;
-
-namespace ParseKit.Lexer;
+﻿using System.Text.RegularExpressions;
 
 public struct TokenElement<T> where T : Enum {
     public T token;
     public string value;
     public int index;
     public int length;
-    public TokenElement(T token, string value, int index, int length) {
+    public bool isSkipable;
+    public TokenElement(T token, string value, int index, int length, bool isSkipable = false) {
         this.token = token;
         this.value = value;
         this.index = index;
         this.length = length;
+        this.isSkipable = isSkipable;
     }
 }
 
 //Contains token and string/regex for that token
 struct Category<T> where T : Enum {
     public T token;
+    public bool isSkipable = false;
     public string[] literals;
     public Category(T token, params string[] literals) {
         this.token = token;
         this.literals = literals;
+    }
+    public Category(T token, bool skipable, params string[] literals) {
+        this.token = token;
+        this.literals = literals;
+        this.isSkipable = skipable;
     }
 }
 
@@ -44,10 +49,16 @@ public class Lexer<T> where T : Enum {
         this.result = new();
     }
     //creates a child category
-    public Lexer<T> child(T token, params string[] literals) {
-        if (literals is null)
+    public Lexer<T> child(T tk, params string[] lit) {
+        if (lit is null)
             throw new Exception();
-        this.cats.Add(new Category<T>(token, literals));
+        this.cats.Add(new Category<T>(tk, lit));
+        return this;
+    }
+    public Lexer<T> skipable(T tk, params string[] lit) {
+        if (lit is null)
+            throw new Exception();
+        cats.Add(new Category<T>(tk, true, lit));
         return this;
     }
     public LexerResult<T> Lex(string source) {
@@ -58,7 +69,10 @@ public class Lexer<T> where T : Enum {
                 var res = rgx.Matches(this.source);
                 for (int i = 0; i < res.Count; i++) {
                     var match = res[i];
-                    result.Add(new(cat.token, match.Value, match.Index,match.Length));
+                    if(cat.isSkipable)
+                        result.Add(new(cat.token, match.Value, match.Index, match.Length, true));
+                    else
+                        result.Add(new(cat.token, match.Value, match.Index, match.Length));
                 }
             }
         }
@@ -78,7 +92,7 @@ public class Lexer<T> where T : Enum {
         var rmlist = new List<TokenElement<T>>();
         foreach (var item1 in result) {
             int eidx = item1.index + item1.length;
-            foreach (var item2 in result.Where(x => x.index < eidx && x.index > item1.index)) {
+            foreach (var item2 in result.Where(x => (x.index < eidx && x.index > item1.index) || x.isSkipable)) {
                 rmlist.Add(item2);
             }
         }
