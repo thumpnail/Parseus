@@ -18,13 +18,13 @@ public class ArrayReader<T> {
 		}
 		return arr[idx];
 	}
-	public bool Peekc(int value) {
+	public bool Peekc(Func<T,bool> predicate) {
 		if(idx >= arr.Length) {
 			PrintError();
 			Console.WriteLine();
 			throw new IndexOutOfRangeException();
 		}
-		if(arr[idx].Equals(value)) return true; else return false;
+		return predicate(arr[idx]);
 	}
 	public T Peekn() {
 		if(idx+1 >= arr.Length) {

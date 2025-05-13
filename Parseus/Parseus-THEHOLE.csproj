@@ -7,17 +7,13 @@
         <RootNamespace>Parseus</RootNamespace>
         <LangVersion>13</LangVersion>
         <TargetFramework>net9.0</TargetFramework>
-        <OutputType>Exe</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Update="src\ParserV3\SBNF\SBNFParserGenerator.Template.cs">
-        <DependentUpon>SBNFParserGenerator.cs</DependentUpon>
-      </Compile>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-      <PackageReference Include="YamlDotNet" Version="16.3.0" />
+      <Folder Include="src\Example\One\" />
     </ItemGroup>
 </Project>
