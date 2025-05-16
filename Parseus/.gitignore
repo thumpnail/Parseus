@@ -14,4 +14,5 @@
 *.json
 *.props
 *.info
+*.user
 Parseus/obj/Debug/net9.0/Parseus.AssemblyInfo.cs

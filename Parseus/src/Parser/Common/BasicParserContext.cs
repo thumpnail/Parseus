@@ -3,22 +3,22 @@ using Parseus.Lexer;
 namespace Parseus.Parser.Common;
 public class BasicParserContext : IParserContext {
     public int pos { get; set; }
-    public List<Token> tokens { get; set; }
+    public List<TokenElement> tokens { get; set; }
     public BasicParserContext() {
         this.tokens = new();
         this.pos = 0;
     }
-    public BasicParserContext(params Token[] tokens) {
+    public BasicParserContext(params TokenElement[] tokens) {
         this.tokens = tokens.ToList();
         this.pos = 0;
     }
-    public Token Consume() {
+    public TokenElement Consume() {
         if (pos < tokens.Count()) {
             return tokens[pos++];
         }
         throw new ParseException("Unexpected end of input",$"{typeof(BasicParserContext)}.Consume");
     }
-    public Token PeekToken(int offset = 0) {
+    public TokenElement PeekToken(int offset = 0) {
         if (pos + offset < tokens.Count()) {
             return tokens[pos + offset];
         }
@@ -26,7 +26,7 @@ public class BasicParserContext : IParserContext {
     }
     public bool MatchToken(string token) => MatchToken(x=>x.Value == token);
     
-    public bool MatchToken(Predicate<Token> pedicate) {
+    public bool MatchToken(Predicate<TokenElement> pedicate) {
         if (HasMoreTokens()) {
             if (pedicate.Invoke(tokens[pos])) {
                 return true;

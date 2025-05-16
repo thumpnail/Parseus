@@ -8,10 +8,10 @@ namespace Parseus.Parser.BasicParsers.Ini;
 
 class TK {
     public const string identifier = "identifier";
-    public const string openBracket = "openBracket";
-    public const string closeingBracket = "closeingBracket";
-    public const string openBraces = "openBraces";
-    public const string closeingBraces = "closeingBraces";
+    public const string openbracket = "openBracket";
+    public const string closeingbracket = "closeingBracket";
+    public const string openbraces = "openBraces";
+    public const string closeingbraces = "closeingBraces";
     public const string equal = "equal";
     public const string eol = "eol";
     public const string @string = "@string";
@@ -27,7 +27,7 @@ public class IniRoot {
 }
 
 public class IniGroup {
-    public string name;
+    public Identifier name;
     public List<IniField> fields = new();
     public override string ToString() {
         return $"name={name}";
@@ -35,7 +35,7 @@ public class IniGroup {
 }
 
 public class IniField {
-    public string name;
+    public Identifier name;
     public IniValue value;
     public override string ToString() {
         return $"{name}={value.ToString()}";
@@ -43,6 +43,7 @@ public class IniField {
 }
 
 public class IniValue {
+    public string ValueType;
     public string sValue;
     public string nValue;
     public Array aValue;
@@ -81,105 +82,85 @@ public class IniParser : Implicit.BaseParser {
     const string IDENTIFIER = $"[\\.]?{WORD}([\\.]{WORD})*([\\:]{WORD})?";
     const string DIGIT = "[0-9]";
     const string NUMBER = $"{DIGIT}+(\\.{DIGIT}+)?";
-    private Lexer.Lexer<string> lexer = new Lexer<string>()
-        .Child(TK.openBracket, @"\[")
-        .Child(TK.closeingBracket, @"\]")
-        .Child(TK.openBraces, @"\{")
-        .Child(TK.closeingBraces, @"\}")
+    private Lexer.Lexer lexer = new Lexer.Lexer()
+        .Child(TK.openbracket, @"\[")
+        .Child(TK.closeingbracket, @"\]")
+        .Child(TK.openbraces, @"\{")
+        .Child(TK.closeingbraces, @"\}")
         .Child(TK.equal, "=")
         .Child(TK.comma, ",")
         .Child(TK.eol, Environment.NewLine)
         .Child(TK.identifier, IDENTIFIER)
-        .Child(TK.@string, "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"")
-        .Child(TK.@string, @"'(\\.|[^'\\])*'")
+        .Child(TK.@string, "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"",@"'(\\.|[^'\\])*'")
         .Child(TK.number, @"-?(0[xX][0-9a-fA-F]+|\d*[.]\d+([eE][+-]?\d+)?|\d+([.]\d*)?([eE][+-]?\d+)?)");
     public override IniRoot Parse(string src) {
         var lexres = lexer.Lex(src);
-        Console.WriteLine(string.Join("\n", lexres.result.Select(x => $"({x.token}:{(x.Value.Contains("\n") ? "<newline>" : x.Value)})").ToList()));
-        //var doc = IniRootParser.Parse(new BasicParserContext(lexres.ToTokens().ToArray()));
-        return /*doc*/ new();
+        Console.WriteLine(string.Join("\n", lexres.result.Select(x => $"({x.Token}:{(x.Value.Contains("\n") ? "<newline>" : x.Value)})").ToList()));
+        var doc = IniRootParser.Parse(new(new BasicParserContext(lexres.result.ToArray()), new CancelationToken()));
+        return doc;
     }
-/*
     private static readonly Parser<IniRoot> IniRootParser = new((c, self) => {
-        Repeat(c, () => {
-            var res = Node(c, IniGroupParser, (iniGroup) => {
-                self.groups.Add(iniGroup);
-            });
-            return res;
-        }, out _);
+        Repeat(c, c => {
+            Node(c, IniGroupParser, (iniGroup) => { self.groups.Add(iniGroup); });
+        });
     });
-
+    // IniGroupParser := "[" identifier "]" eol { IniFieldParser }
     private static readonly Parser<IniGroup> IniGroupParser = new((c, self) => {
         Literal(c, "[", out _);
-        Token(c, TK.identifier, out var result);
-        self.name = result.Value;
+        Node(c, IdentifierParser, out self.name);
         Literal(c, "]", out _);
         Token(c, TK.eol, out _);
-        Repeat(c, () => {
-            Node(c, IniFieldParser, out var v);
-            self.fields.Add(v.Value);
-            return ResultExt.MCheck(v.Success);
-        }, out _);
+        Repeat(c, c => {
+            Node(c, IniFieldParser, v => self.fields.Add(v));
+        });
     });
-
+    // IniFieldParser := identifier "=" IniValue eol
     private static readonly Parser<IniField> IniFieldParser = new((c, self) => {
-        Token(c, TK.identifier, out var res);
-        self.name = res.Value;
+        Node(c, IdentifierParser, out self.name);
         Literal(c, "=", out _);
-        Node(c, IniValueParser, (value) => {
-            self.value = value;
-        });
-        Token(c, TK.eol, out _);
+        Node(c, IniValueParser, out self.value);
+        Opt(c, c => Token(c, TK.eol, out _));
     });
+    // IniValueParser := identifier | string | number | Array
     private static readonly Parser<IniValue> IniValueParser = new((c, self) => {
-        Alt(c, out _, () => {
-            Token(c, TK.identifier, out var sValue);
-            self.sValue = sValue.Value;
-            return sValue.Success;
-        }, () => {
-            Token(c, TK.@string, out var sValue);
-            self.sValue = sValue.Value;
-            return sValue.Success;
-        }, () => {
-            Token(c, TK.number, out var nValue);
-            self.nValue = nValue.Value;
-            return nValue.Success;
-        }, () => {
-            Node(c, ArrayParser, out var aValue);
-            self.aValue = aValue.Value;
-            return aValue.Success;
+        Alt(c, c => {
+            Token(c, TK.identifier, out self.sValue);
+            self.ValueType = TK.identifier;
+        }, c => {
+            Token(c, TK.@string, out self.sValue);
+            self.ValueType = TK.@string;
+        }, c => {
+            Token(c, TK.number, out self.nValue);
+            self.ValueType = TK.number;
+        }, c => {
+            Node(c, ArrayParser, out self.aValue);
+            self.ValueType = "Array";
         });
     });
+    // ArrayParser := "{" IniValue { "," IniValue } "}"
     private static readonly Parser<Array> ArrayParser = new((c, self) => {
         Literal(c, "{", out _);
-        Node(c, IniValueParser, (value) => {
-            self.IniValues.Add(value);
+        Node(c, IniValueParser, v => self.IniValues.Add(v));
+        Repeat(c, c => {
+            Literal(c, ",", out _);
+            Node(c, IniValueParser, v => self.IniValues.Add(v));
         });
-        Opt(c, () => {
-            Repeat(c, () => {
-                Literal(c, ",", out _);
-                Node(c, IniValueParser, out var value);
-                    self.IniValues.Add(value.Value);
-                return value.Success;
-            }, out var result);
-            return result.Success;
-        }, out _);
         Literal(c, "}", out _);
     });
+    // IdentifierParser := tk_identifier
     private static readonly Parser<Identifier> IdentifierParser = new((c, self) => {
-        Token(c, TK.identifier, out var res);
-        self.value = res.Value;
+        Token(c, TK.identifier, out self.value);
     });
-
-    public static void Main() {
+    
+    public static void TestIniParser() {
         var src = """
                   [group]
                   abc=12
-                  cvf="hello world"
-                  isebf={12,12}
+                  cde="hello world"
+                  efg={12,"Hello",12,"world"}
                   """;
         var ini = new IniParser();
         var result = ini.Parse(src);
         Console.WriteLine(new YamlDotNet.Serialization.Serializer().Serialize(result));
-    }*/
+    }
 }

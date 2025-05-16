@@ -47,14 +47,14 @@ public class TestBaseParser : Implicit.BaseParser {
     const string DIGIT = "[0-9]";
     const string NUMBER = $"{DIGIT}+(\\.{DIGIT}+)?";
     //?var ident = ident(parameters)
-    private Lexer.Lexer<string> lexer = new Lexer<string>()
+    private Lexer.Lexer lexer = new Lexer.Lexer()
         .Child(TK.var, @"var")
         .Child(TK.openBracket, @"\(")
         .Child(TK.closeingBracket, @"\)")
         .Child(TK.equal, "=")
         .Child(TK.comma, ",")
         .Child(TK.colon, ":")
-        .Skipable(TK.eol, Environment.NewLine)
+        .Child(TK.eol, Environment.NewLine)
         .Child(TK.identifier, IDENTIFIER)
         .Child(TK.@string, "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"")
         .Child(TK.@string, @"'(\\.|[^'\\])*'")
@@ -62,13 +62,13 @@ public class TestBaseParser : Implicit.BaseParser {
 
     public override TestRoot Parse(string src) {
         var lexres = lexer.Lex(src);
-        Console.WriteLine(string.Join("\n", lexres.result.Select(x => $"({x.token}:{(x.Value.Contains("\n") ? "<newline>" : x.Value)})").ToList()));
-        var root = TestRootParser.Parse((new BasicParserContext(lexres.ToTokens().ToArray()), new CancelationToken()));
+        Console.WriteLine(string.Join("\n", lexres.result.Select(x => $"({x.Token}:{(x.Value.Contains("\n") ? "<newline>" : x.Value)})").ToList()));
+        var root = TestRootParser.Parse(new(new BasicParserContext(lexres.result.ToArray()), new CancelationToken()));
         return root;
     }
     // ?#var <ident> = { <ident> : <number> }
     private static Parser<TestRoot> TestRootParser = new((c, self) => {
-        Literal(c, "var", out self.isVar);
+        Opt(c, tuple => { Literal(c, "var", out self.isVar); });
         Node(c, IdentifierParser, out self.identifier);
         Opt(c, (c) => {
             Token(c, TK.equal, out _);
