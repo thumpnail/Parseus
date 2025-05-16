@@ -7,3 +7,11 @@
 *.xml
 *.exe
 *.pdb
+
+*.cache
+
+*.json
+
+*.props
+
+*.info
