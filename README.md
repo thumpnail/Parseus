@@ -38,7 +38,11 @@ public static class Program {
 ```
 
 # Parseus
-Experimental Parser with Source to Ast to Source Code Generator
+Experimental Parser based on Ebnf.
+The parser uses 'Primitives' known from Ebnf like repeats ``{ ... }`` optionals ``[ ... ]`` and alternitives ``( ... | ... | ... )``.
+That makes the parser more maintainable because it is rule based and simple.
+
+Currently ther is not a seamless integration with the lexer i created.
 
 Currently just a template for my Parser generator in [Vlang](https://www.github.com/vlang/v)
 
