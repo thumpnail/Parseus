@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 <Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
@@ -21,3 +22,28 @@
       <PackageReference Include="YamlDotNet" Version="16.3.0" />
     </ItemGroup>
 </Project>
+=======
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>annotations</Nullable>
+        <AssemblyName>Parseus</AssemblyName>
+        <RootNamespace>Parseus</RootNamespace>
+        <LangVersion>13</LangVersion>
+        <TargetFramework>net9.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="src\ParserV3\SBNF\SBNFParserGenerator.Template.cs">
+        <DependentUpon>SBNFParserGenerator.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="YamlDotNet" Version="16.3.0" />
+    </ItemGroup>
+</Project>
+>>>>>>> Stashed changes
