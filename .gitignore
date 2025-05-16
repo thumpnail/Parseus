@@ -15,3 +15,5 @@
 *.props
 
 *.info
+
+Parseus/obj/Debug/net9.0/Parseus.AssemblyInfo.cs
