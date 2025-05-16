@@ -1,4 +1,4 @@
-﻿using Parseus.Lexer;
+using Parseus.Lexer;
 namespace Parseus.Parser.Common;
 
 public interface IParserContext {

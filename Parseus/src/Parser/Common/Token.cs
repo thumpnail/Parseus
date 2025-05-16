@@ -1,4 +1,4 @@
-﻿using Parseus.Lexer;
+using Parseus.Lexer;
 using Parseus.Util;
 namespace Parseus.Parser.Common;
 

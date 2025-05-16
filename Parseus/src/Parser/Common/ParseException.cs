@@ -1,4 +1,4 @@
-﻿using Parseus.Util;
+using Parseus.Util;
 namespace Parseus.Parser.Common;
 public enum LogLevel : int {
     none = 0,

@@ -1,4 +1,4 @@
-﻿namespace Parseus.Parser.ObjectBased;
+namespace Parseus.Parser.ObjectBased;
 
 public abstract class Parser {
     public interface EbnfNode {

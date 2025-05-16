@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 using Parseus.Parser.Common;
 namespace Parseus.Util;
 

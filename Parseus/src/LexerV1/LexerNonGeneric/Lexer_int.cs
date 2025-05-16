@@ -1,4 +1,4 @@
-﻿using System.Text.RegularExpressions;
+using System.Text.RegularExpressions;
 namespace Parseus.Lexer;
 
 //Contains token and string/regex for that token

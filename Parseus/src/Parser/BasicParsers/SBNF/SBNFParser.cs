@@ -1,4 +1,4 @@
-﻿using System.Runtime.CompilerServices;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using Parseus.Parser.Explicit;
 namespace Parseus.Parser.BasicParser.SBNF;

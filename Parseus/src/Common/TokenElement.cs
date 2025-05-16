@@ -1,4 +1,4 @@
-﻿namespace Parseus.Lexer;
+namespace Parseus.Lexer;
 
 public struct TokenElement<T> {
     public T token;

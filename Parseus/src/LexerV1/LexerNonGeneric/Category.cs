@@ -1,4 +1,4 @@
-﻿namespace Parseus.Lexer;
+namespace Parseus.Lexer;
 
 struct Category {
     public string token;

@@ -1,4 +1,4 @@
-﻿using Parseus.Lexer;
+using Parseus.Lexer;
 using Parseus.Lexer.Helper;
 using Parseus.Parser.Common;
 using Parseus.Parser.Explicit;

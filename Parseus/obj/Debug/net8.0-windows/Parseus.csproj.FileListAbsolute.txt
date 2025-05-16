@@ -1,0 +1,5 @@
+D:\fried\OneDrive\Dokumente\Code\GitHub\Parseus\Parseus\obj\Debug\net8.0-windows\Parseus.GeneratedMSBuildEditorConfig.editorconfig
+D:\fried\OneDrive\Dokumente\Code\GitHub\Parseus\Parseus\obj\Debug\net8.0-windows\Parseus.AssemblyInfoInputs.cache
+D:\fried\OneDrive\Dokumente\Code\GitHub\Parseus\Parseus\obj\Debug\net8.0-windows\Parseus.AssemblyInfo.cs
+D:\fried\OneDrive\Dokumente\Code\GitHub\Parseus\Parseus\obj\Debug\net8.0-windows\Parseus.csproj.CoreCompileInputs.cache
+D:\fried\OneDrive\Dokumente\Code\GitHub\Parseus\Parseus\obj\Debug\net8.0-windows\Parseus.sourcelink.json

@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 using Parseus.Parser.Common;
 using Parseus.Parser.Explicit;
 namespace Parseus.Parser.Scratches.test;

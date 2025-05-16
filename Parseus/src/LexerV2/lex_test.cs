@@ -1,4 +1,4 @@
-﻿namespace Parseus.LexerV2;
+namespace Parseus.LexerV2;
 
 public class lex_test {
     enum tk {

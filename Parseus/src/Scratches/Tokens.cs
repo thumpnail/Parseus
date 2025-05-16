@@ -1,4 +1,4 @@
-﻿namespace Parseus.Parser.Scratches;
+namespace Parseus.Parser.Scratches;
 
 public static class Tokens {
     public const string TK_Identifier = "identifier";

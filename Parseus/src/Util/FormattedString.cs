@@ -1,4 +1,4 @@
-﻿using System.Reflection;
+using System.Reflection;
 namespace Parseus.Util;
 
 public static class ToStringUtil

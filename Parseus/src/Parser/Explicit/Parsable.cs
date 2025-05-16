@@ -1,4 +1,4 @@
-﻿using Parseus.Parser.Common;
+using Parseus.Parser.Common;
 namespace Parseus.Parser.Explicit;
 
 public abstract class Parsable {

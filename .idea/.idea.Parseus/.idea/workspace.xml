@@ -8,15 +8,138 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8d51ae57-623e-4b6d-ad49-ea50c7f858b1" name="Changes" comment="" />
+    <list default="true" id="8d51ae57-623e-4b6d-ad49-ea50c7f858b1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/Parseus/src/Parser/ParseusV2.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Parseus/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/Example.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Example/Example.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/ProgramExample.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Example/ProgramExample.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.runtimeconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Example.runtimeconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Parseus.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Parseus.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Parseus.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Example/bin/Debug/net7.0/Parseus.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.GlobalUsings.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.GlobalUsings.g.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.csproj.AssemblyReference.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.csproj.AssemblyReference.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/Example.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/apphost.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/apphost.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/ref/Example.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/ref/Example.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Debug/net7.0/refint/Example.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Debug/net7.0/refint/Example.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Example.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Example.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Example.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Example.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/Example.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/Example.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Example/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Example/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus.sln" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus.sln" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus.sln.DotSettings.user" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus.sln.DotSettings.user" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/.clang-format" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/.clang-format" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/.idea/.idea.Parseus/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/.idea/.idea.Parseus/.idea/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/indexLayout.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/indexLayout.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/.idea/.idea.TESTAST/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/Parseus.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/Parseus.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/ParseKit.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/ParseKit.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/ParseKit.runtimeconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/ParseKit.runtimeconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/Parseus.deps.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/Parseus.deps.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/Parseus.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/Parseus.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/Parseus.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/bin/Debug/net7.0/Parseus.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.GlobalUsings.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.GlobalUsings.g.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.genruntimeconfig.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ParseKit.genruntimeconfig.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.GlobalUsings.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.GlobalUsings.g.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.assets.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.assets.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.csproj.AssemblyReference.cache" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.csproj.CoreCompileInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.csproj.CoreCompileInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.csproj.FileListAbsolute.txt" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.csproj.FileListAbsolute.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.pdb" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.pdb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.sourcelink.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/Parseus.sourcelink.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.GlobalUsings.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/TESTAST.GlobalUsings.g.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ref/Parseus.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/ref/Parseus.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/refint/Parseus.dll" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net7.0/refint/Parseus.dll" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/.NETCoreApp,Version=v8.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.GlobalUsings.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Debug/net8.0/ParseKit.GlobalUsings.g.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/ParseKit.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/ParseKit.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/ParseKit.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/ParseKit.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/ParseKit.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/ParseKit.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Parseus.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Parseus.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Parseus.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Parseus.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/Parseus.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/Parseus.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/TESTAST.csproj.nuget.dgspec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/TESTAST.csproj.nuget.dgspec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/TESTAST.csproj.nuget.g.props" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/TESTAST.csproj.nuget.g.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/TESTAST.csproj.nuget.g.targets" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/TESTAST.csproj.nuget.g.targets" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/project.assets.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/project.assets.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/project.nuget.cache" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/project.nuget.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/project.packagespec.json" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/project.packagespec.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/rider.project.model.nuget.info" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/rider.project.model.nuget.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/obj/rider.project.restore.info" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/obj/rider.project.restore.info" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/src/Lexer/Lexer.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/src/Lexer/Lexer.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/src/Lexer/Lexer_int.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/src/Lexer/Lexer_int.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/src/Parser/Parseus.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/src/Parser/Parser.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/src/Util/ArrayReader.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/src/Util/ArrayReader.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Parseus/src/Util/Helper.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Parseus/src/Util/Helper.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/.NETCoreApp,Version=v7.0.AssemblyAttributes.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.AssemblyInfo.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.AssemblyInfo.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.AssemblyInfoInputs.cache" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.AssemblyInfoInputs.cache" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.GeneratedMSBuildEditorConfig.editorconfig" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.GeneratedMSBuildEditorConfig.editorconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.GlobalUsings.g.cs" beforeDir="false" afterPath="$PROJECT_DIR$/obj/Debug/net7.0/ParseKit.GlobalUsings.g.cs" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="DpaMonitoringSettings">
+    <option name="autoShow" value="false" />
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;thumpnail&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/thumpnail/Parseus.git&quot;,
+    &quot;accountId&quot;: &quot;33a8413d-cabd-4abe-8f3e-8047443bf4c5&quot;
+  }
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Example/ProgramExample.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Parseus/src/Lexer/Lexer.cs" root0="FORCE_HIGHLIGHTING" />
@@ -35,23 +158,25 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    ".NET Project.Example.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "Parseus-Rework",
-    "last_opened_file_path": "C:/Users/fried/OneDrive/Dokumente/Code/GitHub/Parseus/Parseus.sln",
+    "last_opened_file_path": "C:/Users/fenex/OneDrive/Dokumente/Code/GitHub/Parseus/Parseus.sln",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
     "rider.external.source.directories": [
-      "C:\\Users\\fried\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\DecompilerCache",
-      "C:\\Users\\fried\\AppData\\Roaming\\JetBrains\\Rider2023.2\\resharper-host\\SourcesCache",
-      "C:\\Users\\fried\\AppData\\Local\\Symbols\\src"
+      "C:\\Users\\fenex\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\DecompilerCache",
+      "C:\\Users\\fenex\\AppData\\Roaming\\JetBrains\\Rider2024.1\\resharper-host\\SourcesCache",
+      "C:\\Users\\fenex\\AppData\\Local\\Symbols\\src"
     ]
   }
 }]]></component>
@@ -85,12 +210,20 @@
       <updated>1707223810833</updated>
       <workItem from="1707223811956" duration="286000" />
       <workItem from="1707224116765" duration="1136000" />
+      <workItem from="1711030745784" duration="664000" />
+      <workItem from="1722418453677" duration="2647000" />
+      <workItem from="1722421196025" duration="1688000" />
+      <workItem from="1722422906946" duration="115000" />
+      <workItem from="1722423065008" duration="315000" />
+      <workItem from="1722423392815" duration="119000" />
+      <workItem from="1722423635584" duration="11795000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
+  <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
   <component name="V Toolchain" url="$PROJECT_DIR$/../../../../../../../v" />
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
