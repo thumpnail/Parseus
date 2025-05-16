@@ -3,3 +3,12 @@
 /obj
 /.vs
 /.vscode
+*.dll
+*.xml
+*.exe
+*.pdb
+*.cache
+*.json
+*.props
+*.info
+Parseus/obj/Debug/net9.0/Parseus.AssemblyInfo.cs
