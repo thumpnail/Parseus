@@ -2,7 +2,7 @@
 namespace Parseus;
 
 public class Test {
-    public static void Main(string[] args) {
+    public static void test_main(string[] args) {
         var iniParser = new TestBaseParser().Parse("""
                                                   hello = (
                                                         one : 1

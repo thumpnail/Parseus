@@ -2,12 +2,12 @@ using Parseus.Parser.Common;
 namespace Parseus.Parser.Explicit;
 
 public abstract class Parsable {
-    protected IParserContext Context;
+    protected AParserContext Context;
     public Parsable() {
         throw new NotImplementedException();
-        Context = new BasicParserContext();
+        Context = new BasicAParserContext();
     }
-    public Parsable(IParserContext context) {
+    public Parsable(AParserContext context) {
         throw new NotImplementedException();
         Context = context;
     }

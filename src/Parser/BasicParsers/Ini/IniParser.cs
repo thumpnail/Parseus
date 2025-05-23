@@ -96,7 +96,7 @@ public class IniParser : Implicit.BaseParser {
     public override IniRoot Parse(string src) {
         var lexres = lexer.Lex(src);
         Console.WriteLine(string.Join("\n", lexres.result.Select(x => $"({x.Token}:{(x.Value.Contains("\n") ? "<newline>" : x.Value)})").ToList()));
-        var doc = IniRootParser.Parse(new(new BasicParserContext(lexres.result.ToArray()), new CancelationToken()));
+        var doc = IniRootParser.Parse(new(new BasicAParserContext(lexres.result.ToArray()), new CancellationState()));
         return doc;
     }
     private static readonly Parser<IniRoot> IniRootParser = new((c, self) => {

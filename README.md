@@ -147,6 +147,17 @@ That one is Extremely simple.
 
 I actually didnt check for Performance, so it might be actually pretty bad.
 
+## Parser
+### Todo
+- [x] Token
+- [x] Literal
+- [x] Node
+- [x] Node b
+- [x] Repeat Success
+- [x] Repeat Fail
+- [x] Opt
+- [ ] Alt Success
+- [ ] Alt Fail
 
 ## Ast
 The [Ast](https://github.com/thumpnail/Parseus/blob/main/Ast.cs) contains the structs for representing the Abstract Syntax Tree, like expressions and Statemnts.

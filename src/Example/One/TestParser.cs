@@ -63,7 +63,7 @@ public class TestBaseParser : Implicit.BaseParser {
     public override TestRoot Parse(string src) {
         var lexres = lexer.Lex(src);
         Console.WriteLine(string.Join("\n", lexres.result.Select(x => $"({x.Token}:{(x.Value.Contains("\n") ? "<newline>" : x.Value)})").ToList()));
-        var root = TestRootParser.Parse(new(new BasicParserContext(lexres.result.ToArray()), new CancelationToken()));
+        var root = TestRootParser.Parse(new(new BasicAParserContext(lexres.result.ToArray()), new CancellationState()));
         return root;
     }
     // ?#var <ident> = { <ident> : <number> }
