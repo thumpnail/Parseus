@@ -43,10 +43,10 @@ public class IniField {
 }
 
 public class IniValue {
-    public string ValueType;
-    public string sValue;
-    public string nValue;
-    public Array aValue;
+    public string? ValueType;
+    public string? sValue;
+    public string? nValue;
+    public Array? aValue;
     public override string ToString() {
         if (!string.IsNullOrEmpty(sValue)) {
             return sValue.ToString();
@@ -161,6 +161,9 @@ public class IniParser : Implicit.BaseParser {
                   """;
         var ini = new IniParser();
         var result = ini.Parse(src);
-        Console.WriteLine(new YamlDotNet.Serialization.Serializer().Serialize(result));
+        var serializer = new YamlDotNet.Serialization.SerializerBuilder()
+            
+            .Build();
+        Console.WriteLine(serializer.Serialize(result));
     }
 }
