@@ -2,8 +2,6 @@ using System.Runtime.CompilerServices;
 using Parseus.Parser.Common;
 namespace Parseus.Parser.Implicit;
 
-public record BaseParserContext(AParserContext context, BaseParser.CancellationState state);
-
 public abstract class BaseParser {
     public delegate void RefAction<T1,T2>(T1 ctx, ref T2 self);
     internal bool DEBUG = false;
@@ -146,7 +144,6 @@ public abstract class BaseParser {
     }
 
     #region Parser_type
-
     
     protected internal class Parser<T> where T : class, new() {
         // add a fild that returns the default get from this class so it returns the T value
@@ -159,31 +156,6 @@ public abstract class BaseParser {
             action(ctx, self);
             //parse and get the Ast Type
             return self;
-        }
-    }
-
-    #endregion
-
-    #region Canclelation_Token
-
-    public class CancellationState {
-        public bool Ok = true;
-        public Stack<string> reasonStack = new Stack<string>();
-        public void Reset() {
-            Ok = true;
-            if (reasonStack.Count > 0) {
-                reasonStack.Pop();
-            }
-        }
-        public void Flag(string reason) {
-            Ok = false;
-            reasonStack.Push(reason);
-        }
-        public override string ToString() {
-            if (reasonStack.Count > 0) {
-                return $"{Ok} | {reasonStack.Peek()}";
-            }
-            return $"{Ok} | ---";
         }
     }
 

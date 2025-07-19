@@ -7,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-public class SbnfParser : Parsable {
+public class SbnfParser {
     private readonly string[] _tokens;
     private int _position;
 
@@ -16,7 +16,7 @@ public class SbnfParser : Parsable {
         _position = 0;
     }
 
-    public override AstNode Parse() {
+    public AstNode Parse() {
         var rules = new List<AstNode>();
         while (!IsAtEnd()) {
             rules.Add(ParseRule());
@@ -124,7 +124,7 @@ public class SbnfParser : Parsable {
 
     #endregion
 }
-public class AstNode : Parsable
+public class AstNode 
 {
     public string Type { get; }
     public string Value { get; }
@@ -144,7 +144,7 @@ public class AstNode : Parsable
         Value = value;
     }
 
-    public override Parsable? Parse() {
+    public Parsable? Parse() {
         throw new NotImplementedException();
     }
 
