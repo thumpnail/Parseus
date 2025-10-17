@@ -1,6 +1,5 @@
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
-using Parseus.Parser.Common;
 using Parseus.Parser.Explicit;
 namespace Parseus.Parser.BasicParser.SBNF;
 
@@ -11,13 +10,13 @@ using System.Text.RegularExpressions;
 public class SbnfParser : Parsable {
     private readonly string[] _tokens;
     private int _position;
-    
+
     public SbnfParser(string input) {
         _tokens = Tokenize(input);
         _position = 0;
     }
 
-    public AstNode Parse() {
+    public override AstNode Parse() {
         var rules = new List<AstNode>();
         while (!IsAtEnd()) {
             rules.Add(ParseRule());
@@ -124,13 +123,8 @@ public class SbnfParser : Parsable {
     }
 
     #endregion
-
-    public override Parsable? Parse(BaseParserContext ctx) {
-        
-        throw new NotImplementedException();
-    }
 }
-public class AstNode 
+public class AstNode : Parsable
 {
     public string Type { get; }
     public string Value { get; }
@@ -148,6 +142,10 @@ public class AstNode
         Type = type;
         Children = children;
         Value = value;
+    }
+
+    public override Parsable? Parse() {
+        throw new NotImplementedException();
     }
 
     public override string ToString()

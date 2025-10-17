@@ -1,8 +1,8 @@
 using Parseus.Parser.Common;
 namespace Parseus.Parser.Explicit;
 
-public abstract class Parsable(AParserContext context) {
-    protected BaseParserContext ctx = new(context, new());
+public abstract class Parsable {
+    internal BaseParserContext ctx { get; set; }
     
     public abstract Parsable? Parse(BaseParserContext ctx);
 

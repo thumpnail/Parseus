@@ -2,6 +2,8 @@ using System.Runtime.CompilerServices;
 using Parseus.Parser.Common;
 namespace Parseus.Parser.Implicit;
 
+public record BaseParserContext(AParserContext context, BaseParser.CancellationState state);
+
 public abstract class BaseParser {
     public delegate void RefAction<T1,T2>(T1 ctx, ref T2 self);
     internal bool DEBUG = false;
@@ -99,19 +101,10 @@ public abstract class BaseParser {
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Token(BaseParserContext ctx, string token, Action<string> action) {
-        Token(ctx, token, out string value);
+        Token(ctx, token, out var value);
         if (!ctx.state.Ok) 
             return;
         action(value);
-    }
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    protected internal static bool Token(BaseParserContext ctx, string token) {
-        var str = "";
-        Token(ctx, token, out str);
-        if (!ctx.state.Ok) {
-            return false;
-        }
-        return true;
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Token(BaseParserContext ctx, string token, out string value) {
@@ -131,35 +124,14 @@ public abstract class BaseParser {
             value = null;
         }
     }
-
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    protected internal static void Node<T, C>(BaseParserContext ctx, Parser<T> parser, out T value) where C : class,T,new() where T : class {
-        if (!ctx.state.Ok) {
-            value = new C();
-            return;
-        }
-        var cpos = ctx.context.pos;
-        value = parser.Parse<C>(ctx);
-        if (!ctx.state.Ok) {
-            ctx.context.pos = cpos;
-            ctx.state.Flag($"Node<{typeof(T)}> failed: {ctx.context}");
-        }
-    }
-    [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
-    protected internal static void Node<T, C>(BaseParserContext ctx, Parser<T> parser, Action<T> valueAction) where T : class where C:class,T,new() {
-        Node<T,C>(ctx, parser, out var val);
-        if (ctx.state.Ok) {
-            valueAction(val);
-        }
-    }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Node<T>(BaseParserContext ctx, Parser<T> parser, out T value) where T : class,new() {
         if (!ctx.state.Ok) {
-            value = new T();
+            value = new();
             return;
         }
         var cpos = ctx.context.pos;
-        value = parser.Parse<T>(ctx);
+        value = parser.Parse(ctx);
         if (!ctx.state.Ok) {
             ctx.context.pos = cpos;
             ctx.state.Flag($"Node<{typeof(T)}> failed: {ctx.context}");
@@ -167,29 +139,51 @@ public abstract class BaseParser {
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Node<T>(BaseParserContext ctx, Parser<T> parser, Action<T> valueAction) where T : class,new() {
-        Node<T>(ctx, parser, out var val);
+        Node(ctx, parser, out var val);
         if (ctx.state.Ok) {
             valueAction(val);
         }
     }
 
     #region Parser_type
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <typeparam name="TInterfaceGeneric">Interface</typeparam>
-    /// <typeparam name="C">BaseType</typeparam>
-    protected internal class Parser<TInterfaceGeneric> where TInterfaceGeneric : class {
+
+    
+    protected internal class Parser<T> where T : class, new() {
         // add a fild that returns the default get from this class so it returns the T value
-        public Action<BaseParserContext, TInterfaceGeneric> action;
-        public Parser(Action<BaseParserContext, TInterfaceGeneric> action) {
+        public Action<BaseParserContext, T> action;
+        public Parser(Action<BaseParserContext, T> action) {
             this.action = action;
         }
-        public TClassGeneric Parse<TClassGeneric>(BaseParserContext ctx) where TClassGeneric:class,TInterfaceGeneric,new() {
-            TClassGeneric self = new TClassGeneric();
+        public T Parse(BaseParserContext ctx) {
+            T self = new T();
             action(ctx, self);
             //parse and get the Ast Type
             return self;
+        }
+    }
+
+    #endregion
+
+    #region Canclelation_Token
+
+    public class CancellationState {
+        public bool Ok = true;
+        public Stack<string> reasonStack = new Stack<string>();
+        public void Reset() {
+            Ok = true;
+            if (reasonStack.Count > 0) {
+                reasonStack.Pop();
+            }
+        }
+        public void Flag(string reason) {
+            Ok = false;
+            reasonStack.Push(reason);
+        }
+        public override string ToString() {
+            if (reasonStack.Count > 0) {
+                return $"{Ok} | {reasonStack.Peek()}";
+            }
+            return $"{Ok} | ---";
         }
     }
 

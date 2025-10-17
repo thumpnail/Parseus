@@ -1,0 +1,21 @@
+start := { rule } ;
+
+rule := identifier ":=" expression ";" ;
+expression := term { "|" term } ;
+term := factor { factor } ;
+factor := literal
+| identifier
+| group
+| optional
+| repeat;
+
+group := "(" expression ")" ;
+optional := "[" expression "]" ;
+repeat := "{" expression "}" ;
+literal := """ character { character } """ ;
+identifier := letter { letter | digit | "_" } ;
+
+character := printable_char - """ ;
+letter := "A" … "Z" | "a" … "z" ;
+digit := "0" … "9" ;
+printable_char := /* any visible ASCII character except quote */ ;
