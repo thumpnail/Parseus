@@ -11,7 +11,7 @@ using System.Text.RegularExpressions;
 public class SbnfParser : Parsable {
     private readonly string[] _tokens;
     private int _position;
-    
+
     public SbnfParser(string input) {
         _tokens = Tokenize(input);
         _position = 0;
@@ -125,12 +125,15 @@ public class SbnfParser : Parsable {
 
     #endregion
 
-    public override Parsable? Parse(BaseParserContext ctx) {
-        
-        throw new NotImplementedException();
-    }
+	public override Parsable? Parse(BaseParserContext ctx) {
+		var rules = new List<AstNode>();
+		while (!IsAtEnd()) {
+			rules.Add(ParseRule());
+		}
+		return new AstNode("Root", rules);
+	}
 }
-public class AstNode 
+public class AstNode : Parsable
 {
     public string Type { get; }
     public string Value { get; }
@@ -154,4 +157,7 @@ public class AstNode
     {
         return Value != null ? $"{Type}({Value})" : $"{Type}[{string.Join(", ", Children)}]";
     }
+	public override Parsable? Parse(BaseParserContext ctx) {
+		throw new NotImplementedException();
+	}
 }

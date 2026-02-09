@@ -210,8 +210,8 @@ public class SbnfParser_Parseus : BaseParser {
     public override SbnfDocument Parse(string src) {
         var lexerResult = LexerResult(src);
         var parserContext = new BasicAParserContext(lexerResult);
-        var state = new CancellationState();
-        var result = ParseSbnfDocument.Parse(new BaseParserContext(parserContext,state));
+        var state = new Common.CancellationState();
+        var result = ParseSbnfDocument.Parse(new BaseParserContext(parserContext, state));
         if (state.Ok) {
             return result;
         }

@@ -5,7 +5,7 @@ namespace Parseus.Parser.ObjectBased;
 public abstract class Parser {
     public abstract class EbnfNode {
         private bool success;
-        public abstract bool Parse(BaseParserContext ctx);
+        public abstract bool Parse(AParserContext ctx, BaseParser.CancellationState state);
     }
     public class Token: EbnfNode {
         private Action<string> onSuccess;
@@ -14,16 +14,16 @@ public abstract class Parser {
             this.token = token;
             this.onSuccess = onSuccess;
         }
-        public override bool Parse(BaseParserContext ctx) {
-            if(!ctx.state.Ok) {
+        public override bool Parse(AParserContext ctx, BaseParser.CancellationState state) {
+            if(!state.Ok) {
                 return false;
             }
-            if (ctx.context.PeekToken().Token.Equals(token)) {
-                var tokenElement = ctx.context.Consume();
+            if (ctx.PeekToken().Token.Equals(token)) {
+                var tokenElement = ctx.Consume();
                 onSuccess?.Invoke(tokenElement.Value);
                 return true;
             }
-            ctx.state.Flag($"Token failed: {ctx} - {token}");
+            state.Flag($"Token failed: {ctx} - {token}");
             return false;
         }
     }
@@ -32,7 +32,7 @@ public abstract class Parser {
         public Literal(string literal) {
             this.literal = literal;
         }
-        public override bool Parse(BaseParserContext ctx) {
+        public override bool Parse(AParserContext ctx, BaseParser.CancellationState state) {
             throw new NotImplementedException();
         }
     }
@@ -40,7 +40,7 @@ public abstract class Parser {
         public Opt(Group group) {
             
         }
-        public override bool Parse(BaseParserContext ctx) {
+        public override bool Parse(AParserContext ctx, BaseParser.CancellationState state) {
             throw new NotImplementedException();
         }
     }
@@ -48,7 +48,7 @@ public abstract class Parser {
         public Repeat(Group nodes) {
             
         }
-        public override bool Parse(BaseParserContext ctx) {
+        public override bool Parse(AParserContext ctx, BaseParser.CancellationState state) {
             throw new NotImplementedException();
         }
     }
@@ -56,7 +56,7 @@ public abstract class Parser {
         public Group(params EbnfNode[] nodes) {
             
         }
-        public override bool Parse(BaseParserContext ctx) {
+        public override bool Parse(AParserContext ctx, BaseParser.CancellationState state) {
             throw new NotImplementedException();
         }
     }
@@ -64,12 +64,12 @@ public abstract class Parser {
         public Alt(params Group[] groups) {
             
         }
-        public override bool Parse(BaseParserContext ctx) {
+        public override bool Parse(AParserContext ctx, BaseParser.CancellationState state) {
             throw new NotImplementedException();
         }
     }
     public class Node: EbnfNode {
-        public override bool Parse(BaseParserContext ctx) {
+        public override bool Parse(AParserContext ctx, BaseParser.CancellationState state) {
             throw new NotImplementedException();
         }
     }
