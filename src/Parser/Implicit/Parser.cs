@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
+
 using Parseus.Parser.Common;
+
 namespace Parseus.Parser.Implicit;
-
-
 
 public abstract class BaseParser {
     public delegate void RefAction<T1,T2>(T1 ctx, ref T2 self);
