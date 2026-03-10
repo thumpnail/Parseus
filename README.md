@@ -3,10 +3,18 @@
 ## Sample of Usage of the WIP lexer
 ```csharp
 public static class Program {
-    public enum Token { CLASS, STRUCT, FNC, LET, VAR, NUMBER, STRING, IDENTIFIER,
-        COMMENT,
-        SEMICOLON,
-        EOL
+    public class Tokens {
+        public const string CLASS = "CLASS";
+        public const string STRUCT = "STRUCT";
+        public const string FNC = "FNC";
+        public const string LET = "LET";
+        public const string VAR = "VAR";
+        public const string NUMBER = "NUMBER";
+        public const string STRING = "STRING";
+        public const string IDENTIFIER = "IDENTIFIER";
+        public const string COMMENT = "COMMENT";
+        public const string SEMICOLON = "SEMICOLON";
+        public const string EOL = "EOL";
     }
 
     public static void Main(string[] args) {
@@ -14,17 +22,17 @@ public static class Program {
         var src = "let somename := \"Hello World\";" + Environment.NewLine+"//"+"this is a comment"+Environment.NewLine+"let somenum : 12.21;"+Environment.NewLine;
         //Creating a Lexer Instance
         var lexer = new Lexer<Token>()
-                .skipable(Token.COMMENT, @"\/\/.*")
-                .child(Token.EOL, Environment.NewLine)
-                .child(Token.CLASS, "class")
-                .child(Token.STRUCT, "struct")
-                .child(Token.FNC, "fnc")
-                .child(Token.LET, "let")
-                .child(Token.VAR, "var")
-                .child(Token.SEMICOLON, ";")
-                .child(Token.IDENTIFIER, "[a-zA-Z_][a-zA-Z0-9_]*")
-                .child(Token.STRING, @"'(\\.|[^'\\])*'", "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"")
-                .child(Token.NUMBER, @"-?(0[xX][0-9a-fA-F]+|\d*[,.]\d+([eE][+-]?\d+)?|\d+([,.]\d*)?([eE][+-]?\d+)?)");
+                .skipable(Tokens.COMMENT, @"\/\/.*")
+                .child(Tokens.EOL, Environment.NewLine)
+                .child(Tokens.CLASS, "class")
+                .child(Tokens.STRUCT, "struct")
+                .child(Tokens.FNC, "fnc")
+                .child(Tokens.LET, "let")
+                .child(Tokens.VAR, "var")
+                .child(Tokens.SEMICOLON, ";")
+                .child(Tokens.IDENTIFIER, "[a-zA-Z_][a-zA-Z0-9_]*")
+                .child(Tokens.STRING, @"'(\\.|[^'\\])*'", "\"" + @"(\\.|[^" + "\"" + @"\\])*" + "\"")
+                .child(Tokens.NUMBER, @"-?(0[xX][0-9a-fA-F]+|\d*[,.]\d+([eE][+-]?\d+)?|\d+([,.]\d*)?([eE][+-]?\d+)?)");
 
         var lexerResult = lexer.Lex(src);
 
