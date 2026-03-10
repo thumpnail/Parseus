@@ -1,7 +1,7 @@
 namespace Parseus.Parser.Common;
 
 public class CancellationState {
-    public bool Ok = true;
+	public bool Ok = true;
     public Stack<string> reasonStack = new Stack<string>();
     public void Reset() {
         Ok = true;
@@ -15,8 +15,15 @@ public class CancellationState {
     }
     public override string ToString() {
         if (reasonStack.Count > 0) {
-            return $"{Ok} | {reasonStack.Peek()}";
+            return $"{(Ok?"OK":"ERR")} | {string.Join(",",reasonStack.ToList().Last())}";
         }
-        return $"{Ok} | ---";
+        return $"{(Ok?"OK":"ERR")} | ---";
     }
+	
+	public string ToString(string source) {
+		if (reasonStack.Count > 0) {
+			return $"[{source}] {(Ok?"OK":"ERR")} | {string.Join(",",reasonStack.ToList().Last())}";
+		}
+		return $"{(Ok?"OK":"ERR")} | ---";
+	}
 }

@@ -2,6 +2,7 @@ using System.Text.RegularExpressions;
 namespace Parseus.Lexer;
 
 public class Lexer {
+	private int priorityCounter = 0;
     private List<Category> cats;
     private string source;
     private List<TokenElement> result;
@@ -14,13 +15,13 @@ public class Lexer {
     public Lexer Child(string tk, params string[] lit) {
         if (lit is null)
             throw new Exception();
-        this.cats.Add(new Category(tk, lit));
+        this.cats.Add(new Category(priorityCounter++, tk, lit));
         return this;
     }
     public Lexer Skippable(string tk, params string[] lit) {
         if (lit is null)
             throw new Exception();
-        cats.Add(new Category(tk, true, lit));
+        cats.Add(new Category(priorityCounter++, tk, true, lit));
         return this;
     }
     public LexerResult Lex(string source) {
@@ -32,9 +33,9 @@ public class Lexer {
                 for (int i = 0; i < res.Count; i++) {
                     var match = res[i];
                     if(cat.isSkipable)
-                        result.Add(new(cat.token, match.Value, match.Index, match.Length, true));
+                        result.Add(new(cat.token, match.Value, match.Index, match.Length, true, cat.Priority));
                     else
-                        result.Add(new(cat.token, match.Value, match.Index, match.Length));
+                        result.Add(new(cat.token, match.Value, match.Index, match.Length, priority: cat.Priority));
                 }
             }
         }
@@ -46,10 +47,14 @@ public class Lexer {
             else
                 return 0;
         });
+		result = result.GroupBy(o => o.Index)
+			.Select(g => g.OrderByDescending(o => o.Priority).Last()) // get the one whith Lowest Priority
+			.ToList()
+			;
         result = result
             .GroupBy(o => o.Index)
             .Select(g => g.OrderByDescending(o => o.Length).First()) // get the one whith highest length
-            .ToList()
+			.ToList()
             ;
         var rmlist = new List<TokenElement>();
         foreach (var item1 in result) {

@@ -129,6 +129,64 @@ namespace Parseus.Parser.Implicit.Tests
             Assert.Equal(0, _mockContext.Object.pos);
         }
 
+        [Fact]
+        public void RepeatOpt_AllowsInnerFailureWithoutFailingOverall()
+        {
+            // Arrange: prepare a position and make sure state is OK initially
+            _mockContext.Setup(c => c.pos).Returns(0);
+
+            // Act: run RepeatOpt with an action that fails on first run
+            BaseParser.RepeatOpt(_ctx, ctx => ctx.state.Flag());
+
+            // Assert: Opt wrapper should reset the failure, leaving overall state OK
+            Assert.True(_ctx.state.Ok);
+        }
+
+        [Fact]
+        public void Literal_FlagsOnUnexpectedEndOfInput()
+        {
+            // Arrange: no more tokens available
+            _mockContext.Setup(c => c.HasMoreTokens()).Returns(false);
+
+            // Act
+            BaseParser.Literal(_ctx, "hello", out bool success);
+
+            // Assert
+            Assert.False(success);
+            Assert.False(_ctx.state.Ok);
+        }
+
+        [Fact]
+        public void Token_FlagsWhenTokenTypeDoesNotMatch()
+        {
+            // Arrange: token exists but has different type
+            var token = new Token { Token = "ID", Value = "x" };
+            _mockContext.Setup(c => c.HasMoreTokens()).Returns(true);
+            _mockContext.Setup(c => c.PeekToken()).Returns(token);
+
+            // Act
+            BaseParser.Token(_ctx, "NUMBER", out string value);
+
+            // Assert
+            Assert.Null(value);
+            Assert.False(_ctx.state.Ok);
+        }
+
+        [Fact]
+        public void Node_WithAction_InvokesActionWhenParserSucceeds()
+        {
+            // Arrange: create a parser that populates the node
+            var parser = new BaseParser.Parser<DummyNode>((ctx, node) => { node.Data = "action-called"; });
+            var called = false;
+
+            // Act
+            BaseParser.Node(_ctx, parser, v => { called = true; Assert.Equal("action-called", v.Data); });
+
+            // Assert
+            Assert.True(called);
+            Assert.True(_ctx.state.Ok);
+        }
+
         public class DummyNode
         {
             public string Data { get; set; }

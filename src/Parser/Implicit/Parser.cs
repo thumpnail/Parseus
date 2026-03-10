@@ -16,139 +16,160 @@ public abstract class BaseParser {
         this.LogLevel = LogLevel.none;
         this.context = new BasicAParserContext();
     }
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	protected internal static void RepeatOpt(BaseParserContext ctx, Action<BaseParserContext> action) {
+		Opt(ctx, c => Repeat(c, action));
+		Console.WriteLine(ctx.State.ToString("RepeatOpt"));
+	}
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     protected internal static void Repeat(BaseParserContext ctx, Action<BaseParserContext> action) {
-        if (!ctx.state.Ok) return;
-        
-        // run first wich is required to succeed
-        var firstRunPos = ctx.context.pos;
-        action(ctx);
-        if (!ctx.state.Ok) {
-            ctx.context.pos = firstRunPos;
-            return;
-        }
-        
-        var startPos = ctx.context.pos;
-        while (ctx.state.Ok) {
-            var loopPos = ctx.context.pos;
-            action(ctx);
-            if (!ctx.state.Ok) {
-                ctx.context.pos = loopPos;
-                ctx.state.Reset(); // Reset only the last failed attempt
-                break; // Exit loop, keep previously parsed values
-            }
-        }
-        // If nothing was parsed successfully at all, revert to original position
-        if (ctx.context.pos == startPos) {
-            ctx.state.Reset();
-        }
+        if (!ctx.IsOk) return;
+		
+		// save start position for potential revert on first failure
+		var startPos = ctx.Context.pos;
+		// first run must succeed and make progress
+		action.Invoke(ctx);
+
+		// if the first run failed, restore start position and leave the failure flagged
+		if (!ctx.IsOk) {
+			ctx.Context.pos = startPos; // revert any consumed tokens
+			return;
+		}
+
+		// if the first run didn't advance, it's an error: revert and flag
+		//if (ctx.context.pos == startPos) {
+		//	ctx.context.pos = startPos;
+		//	ctx.state.Flag("Repeat failed: no progress at pos " + startPos);
+		//	return;
+		//}
+		
+		// subsequent runs: repeat until an attempt fails or makes no progress
+		while (true) {
+			var prevPos = ctx.Context.pos;
+			action.Invoke(ctx);
+
+			// if this attempt failed or made no progress, revert the attempt and clear the failure
+			if (!ctx.IsOk) {
+				ctx.Context.pos = prevPos; // revert last failed/no-progress attempt
+				ctx.State.Reset(); // clear the failure from the last attempt
+				break;
+			}
+		}
+		
+		Console.WriteLine(ctx.State.ToString("Repeat"));
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Opt(BaseParserContext ctx, Action<BaseParserContext> action) {
-        if (!ctx.state.Ok) return;
+        if (!ctx.State.Ok) return;
         
-        if (ctx.state.Ok) {
-            var cpos = ctx.context.pos;
-            action(ctx);
-            if (!ctx.state.Ok) {
-                ctx.context.pos = cpos;
-                ctx.state.Reset(); // Reset only the last failed attempt
-            }
+        var cpos = ctx.Context.pos;
+        action(ctx);
+        if (!ctx.State.Ok) {
+            // revert only if action failed
+            ctx.Context.pos = cpos;
+            ctx.State.Reset(); // Reset only the last failed attempt
         }
-        // allways reset in a optional
-        ctx.state.Reset();
+		Console.WriteLine(ctx.State.ToString("Opt"));
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Alt(BaseParserContext ctx, params Action<BaseParserContext>[] actions) {
-        if (!ctx.state.Ok) return;
+        if (!ctx.State.Ok) return;
 
-        var cpos = ctx.context.pos;
+        var cpos = ctx.Context.pos;
         for (var idx = 0; idx < actions.Length; idx++) {
-            actions[idx](ctx);
-            if (ctx.state.Ok) {
+            actions[idx].Invoke(ctx);
+            if (ctx.State.Ok) {
+				Console.WriteLine(ctx.State.ToString("Alt<"+actions.Length+">"));
                 return;
             }
-            ctx.state.Reset();
-            ctx.context.pos = cpos;
+            ctx.State.Reset();
+            ctx.Context.pos = cpos;
         }
-        ctx.state.Flag($"Alt failed: {ctx.context.pos}");
+        ctx.State.Flag($"Alt failed: {ctx.Context.pos}");
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Literal(BaseParserContext ctx, string token, Action<bool> action) {
         Literal(ctx, token, out var value);
-        if (!ctx.state.Ok) 
+        if (!ctx.State.Ok) 
             return;
         action(value);
+		Console.WriteLine(ctx.State.ToString("Literal<"+token+">"));
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Literal(BaseParserContext ctx, string literal, out bool success) {
-        if (!ctx.state.Ok) {
+        if (!ctx.State.Ok) {
             success = false;
             return;
         }
-        if (!ctx.context.HasMoreTokens()) {
+        if (!ctx.Context.HasMoreTokens()) {
             success = false;
-            ctx.state.Flag($"Unexpected end of input in Literal: {ctx.context.pos}");
+            ctx.State.Flag($"Unexpected end of input in Literal at pos {ctx.Context.pos}");
             return;
         }
-        if (ctx.context.MatchValue(literal)) {
-            //gut
-            success = literal == ctx.context.Consume().Value;
+        if (ctx.Context.MatchValue(literal)) {
+            // consume the matching value and mark success
+            ctx.Context.Consume();
+            success = true;
         } else {
-            ctx.state.Flag($"Literal failed: {ctx.context.pos}");
+            ctx.State.Flag($"Literal failed at pos {ctx.Context.pos}: expected '{literal}'");
             success = false;
         }
+		Console.WriteLine(ctx.State.ToString("Literal<"+literal+">"));
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Token(BaseParserContext ctx, string token, Action<string> action) {
         Token(ctx, token, out var value);
-        if (!ctx.state.Ok) 
+        if (!ctx.State.Ok) 
             return;
         action(value);
+		Console.WriteLine(ctx.State.ToString("Token<"+token+">"));
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Token(BaseParserContext ctx, string token, out string value) {
-        if (!ctx.state.Ok) {
-            value = null;
+        if (!ctx.State.Ok) {
+            value = null!;
             return;
         }
-        if (!ctx.context.HasMoreTokens()) {
-            ctx.state.Flag($"Unexpected end of input: {ctx}");
-            value = null;
+        if (!ctx.Context.HasMoreTokens()) {
+            ctx.State.Flag($"Unexpected end of input at pos {ctx.Context.pos}, expected token '{token}'");
+            value = null!;
             return;
         }
-        if (ctx.context.MatchToken(token)) {
-            value = ctx.context.Consume().Value;
+        if (ctx.Context.MatchToken(token)) {
+            value = ctx.Context.Consume().Value;
         } else {
-            ctx.state.Flag($"Token failed: {ctx.context}");
-            value = null;
+            ctx.State.Flag($"Token failed at pos {ctx.Context.pos}: expected '{token}'");
+            value = null!;
         }
+		Console.WriteLine(ctx.State.ToString("Token<"+token+">"));
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Node<T>(BaseParserContext ctx, Parser<T> parser, out T value) where T : class,new() {
-        if (!ctx.state.Ok) {
-            value = new();
+        if (!ctx.State.Ok) {
+            // don't allocate a default instance when parsing already failed; return null so callers can see the failure
+            value = null!;
             return;
         }
-        var cpos = ctx.context.pos;
+        var cpos = ctx.Context.pos;
         value = parser.Parse(ctx);
-        if (!ctx.state.Ok) {
-            ctx.context.pos = cpos;
-            ctx.state.Flag($"Node<{typeof(T)}> failed: {ctx.context}");
+        if (!ctx.State.Ok) {
+            ctx.Context.pos = cpos;
+            ctx.State.Flag($"Node<{typeof(T)}> failed: {ctx.Context}");
         }
+		Console.WriteLine(ctx.State.ToString("Node<"+typeof(T).Name+">"));
     }
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     protected internal static void Node<T>(BaseParserContext ctx, Parser<T> parser, Action<T> valueAction) where T : class,new() {
         Node(ctx, parser, out var val);
-        if (ctx.state.Ok) {
+        if (ctx.State.Ok) {
             valueAction(val);
         }
-    }
+		Console.WriteLine(ctx.State.ToString("Node<"+typeof(T).Name+">"));
+	}
 
     #region Parser_type
 
-    
-    protected internal class Parser<T> where T : class, new() {
+	public class Parser<T> where T : class, new() {
         // add a fild that returns the default get from this class so it returns the T value
         public Action<BaseParserContext, T> action;
         public Parser(Action<BaseParserContext, T> action) {
@@ -164,3 +185,4 @@ public abstract class BaseParser {
 
     #endregion
 }
+
