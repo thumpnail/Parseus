@@ -8,7 +8,9 @@ namespace Parseus.Parser.BasicParsers.SBNF_new;
 public class SbnfParser_Parseus : BaseParser {
 	// SbnfDocument = { rule } ;
 	private static List<(string key, List<string> value)> typeMap = new();
-
+	
+#region AST Nodes
+	
 	public record SbnfDocument {
 		public List<SbnfRule> Rules = new();
 		public override string ToString() {
@@ -27,7 +29,7 @@ public class SbnfParser_Parseus : BaseParser {
 		}
 	}
 
-	// rule = identifier ':=' alternation ;
+// rule = identifier ':=' alternation ;
 	public record SbnfRule {
 		public string Identifier;
 		public SbnfAlternation Alternation;
@@ -41,7 +43,7 @@ public class SbnfParser_Parseus : BaseParser {
 		}
 	}
 
-	// alternation = concatenation { '|' concatenation } ;
+// alternation = concatenation { '|' concatenation } ;
 	public record SbnfAlternation {
 		public List<SbnfConcatenation> Concatenations = new();
 		public override string ToString() {
@@ -63,7 +65,7 @@ public class SbnfParser_Parseus : BaseParser {
 		}
 	}
 
-	// concatenation = { factor } ;
+// concatenation = { factor } ;
 	public record SbnfConcatenation {
 		public List<SbnfFactor> Factors = new();
 		public override string ToString() {
@@ -75,7 +77,7 @@ public class SbnfParser_Parseus : BaseParser {
 		}
 	}
 
-	// factor = term '?' | term '*' | term '+' | term ;
+// factor = term '?' | term '*' | term '+' | term ;
 	public record SbnfFactor {
 		public SbnfTerm Term;
 		public string? Operator;
@@ -86,11 +88,11 @@ public class SbnfParser_Parseus : BaseParser {
 		}
 	}
 
-	// term = '(' alternation ')' 
-	// | '[' alternation ']' 
-	// | '{' alternation '}' 
-	// | string 
-	// | identifier ;
+// term = '(' alternation ')' 
+// | '[' alternation ']' 
+// | '{' alternation '}' 
+// | string 
+// | identifier ;
 	public record SbnfTerm {
 		public string Type;
 		public string Value;
@@ -132,6 +134,10 @@ public class SbnfParser_Parseus : BaseParser {
 			return sb.ToString();
 		}
 	}
+	
+	#endregion
+	
+#region parser
 
 	// SbnfDocument = { rule } ;
 	private static Parser<SbnfDocument> ParseSbnfDocument = new((c, self) => {
@@ -221,6 +227,10 @@ public class SbnfParser_Parseus : BaseParser {
 		throw new ParseException("Parse failed", "SbnfParser_Parseus.Parse");
 	}
 
+  #endregion
+	
+#region Lexer
+
 	private static LexerResult LexerResult(string src) {
 
 		var lexerResult = new Lexer.Lexer()
@@ -246,6 +256,9 @@ public class SbnfParser_Parseus : BaseParser {
 			.Lex(src);
 		return lexerResult;
 	}
+
+  #endregion
+	
 	public static void main_test_sbnf_parser() {
 		var parser = new SbnfParser_Parseus();
 		var result = parser.Parse(

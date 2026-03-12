@@ -1,6 +1,7 @@
 using System.Runtime.CompilerServices;
 
 using Parseus.Parser.Common;
+using Parseus.Parser.Diagnostics;
 
 namespace Parseus.Parser.Implicit;
 
@@ -186,6 +187,77 @@ public abstract class BaseParser {
         }
 		//Console.WriteLine(ctx.State.ToString("Node<"+typeof(T).Name+">"));
 	}
+
+    /// <summary>
+    /// Reports an error with automatic position tracking from the current token.
+    /// </summary>
+    protected internal static void ReportError(BaseParserContext ctx, string message, string? sourceLabel = null) {
+        if (ctx.Context is BasicAParserContext basicCtx) {
+            var span = basicCtx.GetCurrentSpan();
+            ctx.State.ReportError(message, span, sourceLabel);
+        } else {
+            ctx.State.ReportError(message, sourceLabel: sourceLabel);
+        }
+    }
+
+    /// <summary>
+    /// Reports a warning with automatic position tracking from the current token.
+    /// </summary>
+    protected internal static void ReportWarning(BaseParserContext ctx, string message, string? sourceLabel = null) {
+        if (ctx.Context is BasicAParserContext basicCtx) {
+            var span = basicCtx.GetCurrentSpan();
+            ctx.State.ReportWarning(message, span, sourceLabel);
+        } else {
+            ctx.State.ReportWarning(message, sourceLabel: sourceLabel);
+        }
+    }
+
+    /// <summary>
+    /// Reports a note with automatic position tracking from the current token.
+    /// </summary>
+    protected internal static void ReportNote(BaseParserContext ctx, string message, string? sourceLabel = null) {
+        if (ctx.Context is BasicAParserContext basicCtx) {
+            var span = basicCtx.GetCurrentSpan();
+            ctx.State.ReportNote(message, span, sourceLabel);
+        } else {
+            ctx.State.ReportNote(message, sourceLabel: sourceLabel);
+        }
+    }
+
+    /// <summary>
+    /// Sets the source code for diagnostic reporting on the context.
+    /// Should be called after creating the parser context.
+    /// </summary>
+    protected internal static void SetSourceCode(BaseParserContext ctx, string source) {
+        if (ctx.Context is BasicAParserContext basicCtx) {
+            basicCtx.SetSourceCode(source);
+        }
+    }
+
+    /// <summary>
+    /// Outputs all collected diagnostics to the console using Rust-like formatting.
+    /// </summary>
+    protected internal static void OutputDiagnostics(BaseParserContext ctx, DiagnosticRenderer.RenderOptions? options = null) {
+        if (ctx.State.HasDiagnostics && ctx.Context is BasicAParserContext basicCtx) {
+            // Inject source code into diagnostics for code snippet rendering
+            foreach (var diag in ctx.State.Diagnostics) {
+                if (diag.SourceCode == null && basicCtx.SourceCode != null) {
+                    diag.WithSourceCode(basicCtx.SourceCode);
+                }
+                if (diag.LineCache == null && basicCtx.LineCache != null) {
+                    diag.WithLineCache(basicCtx.LineCache);
+                }
+            }
+            DiagnosticRenderer.OutputAll(ctx.State.Diagnostics, options);
+        }
+    }
+
+    /// <summary>
+    /// Gets a formatted diagnostic summary like "error: aborting due to 1 error and 2 warnings"
+    /// </summary>
+    protected internal static string GetDiagnosticSummary(BaseParserContext ctx) {
+        return DiagnosticRenderer.GetSummary(ctx.State.Diagnostics);
+    }
 
     #region Parser_type
 
