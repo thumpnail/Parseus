@@ -14,16 +14,16 @@ public class CancellationState {
         reasonStack.Push(reason);
     }
     public override string ToString() {
-        if (reasonStack.Count > 0) {
+        if (reasonStack.Count > 0 && !Ok) {
             return $"{(Ok?"OK":"ERR")} | {string.Join(",",reasonStack.ToList().Last())}";
         }
         return $"{(Ok?"OK":"ERR")} | ---";
     }
 	
 	public string ToString(string source) {
-		if (reasonStack.Count > 0) {
+		if (reasonStack.Count > 0 && !Ok) {
 			return $"[{source}] {(Ok?"OK":"ERR")} | {string.Join(",",reasonStack.ToList().Last())}";
 		}
-		return $"{(Ok?"OK":"ERR")} | ---";
+		return null;
 	}
 }

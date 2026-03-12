@@ -11,16 +11,16 @@ public abstract class Parsable {
     internal void Alt(params Action<BaseParserContext>[] actions) {
         if (!ctx.State.Ok) return;
 
-        var cpos = ctx.Context.pos;
+        var cpos = ctx.Context.Pos;
         for (var idx = 0; idx < actions.Length; idx++) {
             actions[idx](ctx);
             if (ctx.State.Ok) {
                 return;
             }
             ctx.State.Reset();
-            ctx.Context.pos = cpos;
+            ctx.Context.Pos = cpos;
         }
-        ctx.State.Flag($"Alt failed: {ctx.Context.pos}");
+        ctx.State.Flag($"Alt failed: {ctx.Context.Pos}");
     }
 
     internal static void Literal(BaseParserContext ctx, string token, Action<bool> action) {
@@ -36,14 +36,14 @@ public abstract class Parsable {
         }
         if (!ctx.Context.HasMoreTokens()) {
             success = false;
-            ctx.State.Flag($"Unexpected end of input in Literal: {ctx.Context.pos}");
+            ctx.State.Flag($"Unexpected end of input in Literal: {ctx.Context.Pos}");
             return;
         }
         if (ctx.Context.MatchValue(literal)) {
             //gut
             success = literal == ctx.Context.Consume().Value;
         } else {
-            ctx.State.Flag($"Literal failed: {ctx.Context.pos}");
+            ctx.State.Flag($"Literal failed: {ctx.Context.Pos}");
             success = false;
         }
     }
@@ -77,10 +77,10 @@ public abstract class Parsable {
         if (!ctx.State.Ok) return;
         
         if (ctx.State.Ok) {
-            var cpos = ctx.Context.pos;
+            var cpos = ctx.Context.Pos;
             action(ctx);
             if (!ctx.State.Ok) {
-                ctx.Context.pos = cpos;
+                ctx.Context.Pos = cpos;
                 ctx.State.Reset(); // Reset only the last failed attempt
             }
         }
@@ -91,25 +91,25 @@ public abstract class Parsable {
         if (!ctx.State.Ok) return;
         
         // run first wich is required to succeed
-        var firstRunPos = ctx.Context.pos;
+        var firstRunPos = ctx.Context.Pos;
         action(ctx);
         if (!ctx.State.Ok) {
-            ctx.Context.pos = firstRunPos;
+            ctx.Context.Pos = firstRunPos;
             return;
         }
         
-        var startPos = ctx.Context.pos;
+        var startPos = ctx.Context.Pos;
         while (ctx.State.Ok) {
-            var loopPos = ctx.Context.pos;
+            var loopPos = ctx.Context.Pos;
             action(ctx);
             if (!ctx.State.Ok) {
-                ctx.Context.pos = loopPos;
+                ctx.Context.Pos = loopPos;
                 ctx.State.Reset(); // Reset only the last failed attempt
                 break; // Exit loop, keep previously parsed values
             }
         }
         // If nothing was parsed successfully at all, revert to original position
-        if (ctx.Context.pos == startPos) {
+        if (ctx.Context.Pos == startPos) {
             ctx.State.Reset();
         }
     }
@@ -122,15 +122,15 @@ public abstract class Parsable {
             value = new();
             return;
         }
-        var cpos = ctx.Context.pos;
+        var cpos = ctx.Context.Pos;
         value = (T)parser.Parse(ctx);
         if (value == null) {
             ctx.State.Flag($"Node<{typeof(T)}> failed: {ctx.Context} | Reason: null value");
-            ctx.Context.pos = cpos;
+            ctx.Context.Pos = cpos;
             return;
         }
         if (!ctx.State.Ok) {
-            ctx.Context.pos = cpos;
+            ctx.Context.Pos = cpos;
             ctx.State.Flag($"Node<{typeof(T)}> failed: {ctx.Context} | Reason: {ctx.State.reasonStack.Peek()}");
         }
     }

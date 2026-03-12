@@ -4,28 +4,30 @@ using Parseus.Util;
 namespace Parseus.Parser.Common;
 
 public class IncrementalParserContext : AParserContext {
-    private char[] source;
+	/// <inheritdoc />
+	public override int Pos { get; set; }
+	private char[] source;
     public IncrementalParserContext() {
         source = [];
-        pos = 0;
+        Pos = 0;
     }
     public IncrementalParserContext(char[] source) {
         this.source = source;
-        pos = 0;
+        Pos = 0;
     }
     public override TokenElement Consume() {
         if (HasMoreTokens()) {
             var result = new TokenElement();
             var tmp = "";
-            for (; HasMoreTokens(); pos++) {
-                var c = source[pos];
+            for (; HasMoreTokens(); Pos++) {
+                var c = source[Pos];
                 // Skip white spaces and new lines
-                while((c.IsWhiteSpace() || c.IsNewLine()) && HasMoreTokens()) pos++;
+                while((c.IsWhiteSpace() || c.IsNewLine()) && HasMoreTokens()) Pos++;
                 // Check if we reached the end of the source
                 if (c.IsWhiteSpace() || c.IsNewLine()) {
                     if (tmp.Length > 0) {
-                        result = new(tmp,tmp,pos-tmp.Length,tmp.Length);
-                        pos++;
+                        result = new(tmp,tmp,Pos-tmp.Length,tmp.Length);
+                        Pos++;
                         return result;
                     }
                     continue;
@@ -48,10 +50,10 @@ public class IncrementalParserContext : AParserContext {
         throw new ParseException("Unexpected end of input",$"{typeof(IncrementalParserContext)}.Consume");
     }
     public override TokenElement PeekToken(int offset = 0) {
-        if (pos + offset < source.Count()) {
-            var tmp = pos;
+        if (Pos + offset < source.Count()) {
+            var tmp = Pos;
             var result = Consume();
-            pos = tmp;
+            Pos = tmp;
             return result;
         }
         throw new ParseException("Unexpected end of input",$"{typeof(IncrementalParserContext)}.PeekToken");
@@ -60,7 +62,7 @@ public class IncrementalParserContext : AParserContext {
     public override bool  MatchValue(string value) => PeekToken().Value.Equals(value);
     [MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
     public override bool HasMoreTokens() {
-        if (pos < source.Count()) {
+        if (Pos < source.Count()) {
             return true;
         }
         return false;

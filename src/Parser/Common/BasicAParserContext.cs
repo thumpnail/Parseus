@@ -2,7 +2,8 @@
 using Parseus.Lexer;
 namespace Parseus.Parser.Common;
 public class BasicAParserContext : AParserContext {
-    private int Pos { get; set; }
+	/// <inheritdoc />
+	public override int Pos { get; set; }
     private List<TokenElement> Tokens { get; set; }
     public BasicAParserContext() {
         this.Tokens = new();
@@ -20,7 +21,7 @@ public class BasicAParserContext : AParserContext {
         this.Tokens = lexerResult.result;
         this.Pos = 0;
     }
-    public override TokenElement Consume() {
+	public override TokenElement Consume() {
         if (Pos < Tokens.Count()) {
             return Tokens[Pos++];
         }
@@ -44,6 +45,6 @@ public class BasicAParserContext : AParserContext {
         return false;
     }
     public override string ToString() {
-        return $"{pos}";
+        return $"{Pos}";
     }
 }
