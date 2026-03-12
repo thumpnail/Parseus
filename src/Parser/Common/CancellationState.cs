@@ -2,11 +2,11 @@ namespace Parseus.Parser.Common;
 
 public class CancellationState {
 	public bool Ok = true;
-    public Stack<string> reasonStack = new Stack<string>();
-    public void Reset() {
+    public Stack<string> reasonStack = new();
+    public void FullReset() {
         Ok = true;
         if (reasonStack.Count > 0) {
-            reasonStack.Pop();
+            reasonStack.Clear();
         }
     }
     public void Flag(string reason) {

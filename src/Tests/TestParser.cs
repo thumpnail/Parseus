@@ -135,12 +135,10 @@ public class TestParser : BaseParser {
 		});
 	});
 	private static readonly Parser<VariableStatement> VariableStatementParser = new((c, self) => {
-		Token(c, Tokens.LET, out _);
-		Token(c, Tokens.IDENTIFIER, out self.identifier);
+		Token(c, Tokens.LET);
+		Token(c, Tokens.IDENTIFIER, id => { self.identifier = id; });
 		Repeat(c, c => {
-			Token(c, Tokens.NUMBER, n => {
-				self.items.Add(n);
-			});
+			Token(c, Tokens.NUMBER, n => { self.items.Add(n); });
 		});
 	});
 }

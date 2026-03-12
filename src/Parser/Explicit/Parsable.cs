@@ -17,7 +17,7 @@ public abstract class Parsable {
             if (ctx.State.Ok) {
                 return;
             }
-            ctx.State.Reset();
+            ctx.State.FullReset();
             ctx.Context.Pos = cpos;
         }
         ctx.State.Flag($"Alt failed: {ctx.Context.Pos}");
@@ -81,11 +81,11 @@ public abstract class Parsable {
             action(ctx);
             if (!ctx.State.Ok) {
                 ctx.Context.Pos = cpos;
-                ctx.State.Reset(); // Reset only the last failed attempt
+                ctx.State.FullReset(); // Reset only the last failed attempt
             }
         }
         // allways reset in a optional
-        ctx.State.Reset();
+        ctx.State.FullReset();
     }
     internal void Repeat(Action<BaseParserContext> action) {
         if (!ctx.State.Ok) return;
@@ -104,13 +104,13 @@ public abstract class Parsable {
             action(ctx);
             if (!ctx.State.Ok) {
                 ctx.Context.Pos = loopPos;
-                ctx.State.Reset(); // Reset only the last failed attempt
+                ctx.State.FullReset(); // Reset only the last failed attempt
                 break; // Exit loop, keep previously parsed values
             }
         }
         // If nothing was parsed successfully at all, revert to original position
         if (ctx.Context.Pos == startPos) {
-            ctx.State.Reset();
+            ctx.State.FullReset();
         }
     }
     //parse subnodes

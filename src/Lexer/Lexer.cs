@@ -39,15 +39,23 @@ public class Lexer {
                 }
             }
         }
-        // Sort by start index to make processing deterministic
-        result.Sort((a, b) => a.Index.CompareTo(b.Index));
-
-        // For each start index, pick the longest match; if lengths equal, prefer lower Priority
-        // because lower Priority means earlier registration (priorityCounter increments on add).
+        result.Sort((element, tokenElement) => {
+            if (element.Index > tokenElement.Index)
+                return 1;
+            else if (element.Index < tokenElement.Index)
+                return -1;
+            else
+                return 0;
+        });
+		result = result.GroupBy(o => o.Index)
+			.Select(g => g.OrderByDescending(o => o.Priority).Last()) // get the one whith Lowest Priority
+			.ToList()
+			;
         result = result
             .GroupBy(o => o.Index)
-            .Select(g => g.OrderByDescending(o => o.Length).ThenBy(o => o.Priority).First())
-            .ToList();
+            .Select(g => g.OrderByDescending(o => o.Length).First()) // get the one whith highest length
+			.ToList()
+            ;
         var rmlist = new List<TokenElement>();
         foreach (var item1 in result) {
             int eidx = item1.Index + item1.Length;
