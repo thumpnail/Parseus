@@ -9,7 +9,6 @@
 *.pdb
 *.cache
 *.json
-*.props
 *.info
 *.csx
 Parseus/obj/Debug/net9.0/Parseus.AssemblyInfo.cs

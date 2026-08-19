@@ -5,8 +5,6 @@ VisualStudioVersion = 17.5.002.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parseus", "Parseus.csproj", "{5968EDC7-A86F-49DC-B676-C759353D16CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parseus.Tests", "Parseus.Tests\Parseus.Tests.csproj", "{14B0CC52-0E1E-46BF-AB2C-ECCEFE06F0A5}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
