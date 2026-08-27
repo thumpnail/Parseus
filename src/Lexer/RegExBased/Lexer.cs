@@ -1,11 +1,16 @@
+using System.Runtime.InteropServices.ComTypes;
 using System.Text.RegularExpressions;
-namespace Parseus.Lexer;
+
+using Parseus.Lexer.Helper;
+
+namespace Parseus.Lexer.RegExBased;
 
 public class Lexer {
 	private int priorityCounter = 0;
     private List<Category> cats;
     private string source;
     private List<TokenElement> result;
+    public IReadOnlyList<Category> Categories => cats;
     public Lexer() {
         this.source = String.Empty;
         this.cats = new();
@@ -26,6 +31,7 @@ public class Lexer {
     }
     public LexerResult Lex(string source) {
         this.source = source;
+        result.Clear();
         foreach (var cat in cats) {
             foreach (var str in cat.literals) {
                 var rgx = new Regex(str);
@@ -70,13 +76,43 @@ public class Lexer {
         var rmlist = new List<TokenElement>();
         foreach (var item1 in result) {
             int eidx = item1.Index + item1.Length;
-            foreach (var item2 in result.Where(x => (x.Index < eidx && x.Index > item1.Index) || x.IsSkipable)) {
+            foreach (var item2 in result.Where(x => (x.Index < eidx && x.Index > item1.Index) || x.IsSkippable)) {
                 rmlist.Add(item2);
             }
         }
         foreach (var item in rmlist) {
             result.Remove(item);
         }
-        return new LexerResult(source, result);
+
+        // todo: get all line numbers and their index
+        var lines = GetLineNumbers(source, result);
+        return new LexerResult(source, result, lines);
+    }
+	
+    private List<(int lineNumber, int sourceIndex)> GetLineNumbers(string source, List<TokenElement> tokenElements) {
+        var lineReference = new List<(int lineNumber, int sourceIndex)> {
+            (0, 0)
+        };
+
+        for (int i = 0; i < source.Length; i++) {
+            if (source[i] == '\r') {
+                if (i + 1 < source.Length && source[i + 1] == '\n') {
+                    i++;
+                }
+                lineReference.Add((lineReference.Count, i + 1));
+            } else if (source[i] == '\n') {
+                lineReference.Add((lineReference.Count, i + 1));
+            }
+        }
+
+        var currentLine = 0;
+        foreach (var token in tokenElements.OrderBy(t => t.Index)) {
+            while (currentLine + 1 < lineReference.Count && token.Index >= lineReference[currentLine + 1].sourceIndex) {
+                currentLine++;
+            }
+            token.LineIndex = currentLine;
+        }
+
+        return lineReference;
     }
 }

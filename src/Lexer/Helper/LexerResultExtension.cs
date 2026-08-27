@@ -1,3 +1,4 @@
+using Parseus.Lexer.RegExBased;
 using Parseus.Parser.Common;
 namespace Parseus.Lexer.Helper;
 

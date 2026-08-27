@@ -7,5 +7,7 @@ namespace Parseus.Parser.Common;
 /// <param name="Context"></param>
 /// <param name="State"></param>
 public record BaseParserContext(AParserContext Context, CancellationState State) {
-	public bool IsOkAndNotEof => State.Ok && Context.HasMoreTokens();
+	public bool IsOkAndNotEof => IsOk && HasMoreTokens;
+	public bool IsOk => State.Ok;
+	public bool HasMoreTokens => Context.HasMoreTokens();
 }

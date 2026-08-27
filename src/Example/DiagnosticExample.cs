@@ -1,4 +1,5 @@
 using Parseus.Lexer;
+using Parseus.Lexer.RegExBased;
 using Parseus.Parser.Common;
 using Parseus.Parser.Diagnostics;
 using Parseus.Parser.Implicit;
@@ -14,7 +15,7 @@ public static class DiagnosticExample {
     /// Simple arithmetic expression lexer for demonstration.
     /// </summary>
     public static LexerResult LexArithmetic(string source) {
-        var lexer = new Parseus.Lexer.Lexer()
+        var lexer = new Lexer.RegExBased.Lexer()
             .Child("NUMBER", @"[0-9]+")
             .Child("IDENT", @"[a-zA-Z_][a-zA-Z0-9_]*")
             .Child("PLUS", @"\+")
@@ -187,20 +188,20 @@ let = 5";
 
         // Use the helper method to report an error
         parserCtx.Pos = 8;
-        BaseParser.ReportError(ctx, "missing closing parenthesis in function parameters");
+        //BaseParser.ReportError(ctx, "missing closing parenthesis in function parameters");
         
         parserCtx.Pos = 25;
-        BaseParser.ReportWarning(ctx, "missing return type annotation");
+        //BaseParser.ReportWarning(ctx, "missing return type annotation");
         
         parserCtx.Pos = 40;
-        BaseParser.ReportNote(ctx, "comparing with null might cause runtime errors");
+        //BaseParser.ReportNote(ctx, "comparing with null might cause runtime errors");
 
         // Output diagnostics
-        BaseParser.OutputDiagnostics(ctx);
+        //BaseParser.OutputDiagnostics(ctx);
         
         // Show summary
-        var summary = BaseParser.GetDiagnosticSummary(ctx);
-        Console.WriteLine($"error: {summary}");
+        //var summary = BaseParser.GetDiagnosticSummary(ctx);
+        //Console.WriteLine($"error: {summary}");
         Console.WriteLine();
     }
 

@@ -1,6 +1,6 @@
-namespace Parseus.Lexer;
+namespace Parseus.Lexer.RegExBased;
 
-struct Category {
+public class Category {
 	public int Priority;
     public string token;
     public bool isSkipable = false;

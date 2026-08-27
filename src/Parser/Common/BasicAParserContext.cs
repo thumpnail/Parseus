@@ -1,14 +1,13 @@
 
 using Parseus.Lexer;
+using Parseus.Lexer.RegExBased;
 using Parseus.Parser.Diagnostics;
 namespace Parseus.Parser.Common;
 public class BasicAParserContext : AParserContext {
 	/// <inheritdoc />
-	public override int Pos { get; set; }
     private List<TokenElement> Tokens { get; set; }
     
     /// <summary>Original source code for diagnostic reporting.</summary>
-    public string? SourceCode { get; private set; }
     
     /// <summary>Precomputed line/column cache for fast lookups.</summary>
     internal LineColumnCache? LineCache { get; private set; }
@@ -27,6 +26,7 @@ public class BasicAParserContext : AParserContext {
     }
     public BasicAParserContext(LexerResult lexerResult) {
         this.Tokens = lexerResult.result;
+        this.LexerResult = lexerResult;
         this.Pos = 0;
     }
     
@@ -76,6 +76,96 @@ public class BasicAParserContext : AParserContext {
     
     public override bool  MatchToken(string token) => PeekToken().Token.Equals(token);
     public override bool  MatchValue(string value) => PeekToken().Value.Equals(value);
+
+    public bool MatchChar(char value) {
+        if (!HasMoreTokens()) {
+            return false;
+        }
+
+        var current = PeekToken().Value;
+        return current.Length > 0 && current[0] == value;
+    }
+
+    public bool MatchAny(string allowedChars) => MatchAny(allowedChars.ToCharArray());
+
+    public bool MatchAny(params char[] allowedChars) {
+        if (!HasMoreTokens()) {
+            return false;
+        }
+
+        var current = PeekToken().Value;
+        if (current.Length == 0) {
+            return false;
+        }
+
+        foreach (var allowed in allowedChars) {
+            if (current[0] == allowed) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool MatchRange(char minInclusive, char maxInclusive) {
+        if (!HasMoreTokens()) {
+            return false;
+        }
+
+        var current = PeekToken().Value;
+        return current.Length > 0 && current[0] >= minInclusive && current[0] <= maxInclusive;
+    }
+
+    public bool MatchSequence(string value, bool ignoreCase = false) {
+        if (string.IsNullOrEmpty(value)) {
+            return true;
+        }
+
+        if (!HasMoreTokens()) {
+            return false;
+        }
+
+        var current = PeekToken().Value;
+        return current.Length >= value.Length && string.Compare(current, 0, value, 0, value.Length, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) == 0;
+    }
+
+    public bool MatchPredicate(Func<char, bool> predicate) {
+        if (predicate is null || !HasMoreTokens()) {
+            return false;
+        }
+
+        var current = PeekToken().Value;
+        return current.Length > 0 && predicate(current[0]);
+    }
+
+    public bool MatchWhile(Func<char, bool> predicate) {
+        if (predicate is null || !HasMoreTokens()) {
+            return false;
+        }
+
+        var current = PeekToken().Value;
+        if (current.Length == 0 || !predicate(current[0])) {
+            return false;
+        }
+
+        var consumed = Consume();
+        return consumed.Value.Length > 0;
+    }
+
+    public string ConsumeWhile(Func<char, bool> predicate) {
+        if (predicate is null || !HasMoreTokens()) {
+            return string.Empty;
+        }
+
+        var current = PeekToken().Value;
+        if (current.Length == 0 || !predicate(current[0])) {
+            return string.Empty;
+        }
+
+        return Consume().Value;
+    }
+
+    public override bool IsAtEnd() => !HasMoreTokens();
     
     public override bool HasMoreTokens() {
         if (Pos < Tokens.Count()) {

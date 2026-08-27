@@ -9,8 +9,8 @@ public static class NanoScriptParserExample {
     /// <summary>
     /// Erstellt einen Lexer für NanoScript.
     /// </summary>
-    public static Parseus.Lexer.Lexer CreateNanoScriptLexer() {
-        var lexer = new Parseus.Lexer.Lexer();
+    public static Lexer.RegExBased.Lexer CreateNanoScriptLexer() {
+        var lexer = new Lexer.RegExBased.Lexer();
         lexer.Child("WHILE", "whl");
         lexer.Child("FOR", "for");
         lexer.Child("IF", "if");
@@ -51,8 +51,8 @@ public static class NanoScriptParserExample {
         if (state.HasDiagnostics) {
             Console.WriteLine("═════════════════════════════════════════════════════════════════");
             Console.WriteLine("📋 Diagnostics:\n");
-            BaseParser.OutputDiagnostics(ctx, new() { UseColors = true });
-            Console.WriteLine("\nerror: " + BaseParser.GetDiagnosticSummary(ctx));
+            //BaseParser.OutputDiagnostics(ctx, new() { UseColors = true });
+            //Console.WriteLine("\nerror: " + BaseParser.GetDiagnosticSummary(ctx));
         }
         Console.WriteLine("\n═════════════════════════════════════════════════════════════════\n");
     }
@@ -61,21 +61,21 @@ public static class NanoScriptParserExample {
             parserCtx.Consume();
             Console.WriteLine("   ✓ 'whl' parsed");
         } else {
-            BaseParser.ReportError(ctx, "expected 'whl'");
+            //BaseParser.ReportError(ctx, "expected 'whl'");
             return;
         }
         if (parserCtx.MatchToken("NUMBER")) {
             parserCtx.Consume();
             Console.WriteLine("   ✓ condition parsed");
         } else {
-            BaseParser.ReportError(ctx, "expected condition");
+            //BaseParser.ReportError(ctx, "expected condition");
             return;
         }
         if (parserCtx.MatchValue(":")) {
             parserCtx.Consume();
             Console.WriteLine("   ✓ ':' parsed");
         } else {
-            BaseParser.ReportError(ctx, "expected ':'");
+            //BaseParser.ReportError(ctx, "expected ':'");
             return;
         }
         if (parserCtx.MatchValue("prt")) {
@@ -86,8 +86,8 @@ public static class NanoScriptParserExample {
             var token = parserCtx.Consume();
             if (token.Value == "print") {
                 parserCtx.Pos--;
-                BaseParser.ReportError(ctx, "unexpected '" + token.Value + "'");
-                BaseParser.ReportNote(ctx, "'prt' needs no argument");
+                //BaseParser.ReportError(ctx, "unexpected '" + token.Value + "'");
+                //BaseParser.ReportNote(ctx, "'prt' needs no argument");
                 return;
             }
         }
