@@ -127,7 +127,7 @@ let = 5";
         var lexResult = LexArithmetic(source);
         
         // Create parser context
-        var parserCtx = new BasicAParserContext(lexResult);
+        var parserCtx = new BasicAParserContext(lexResult) {SourceCode = source};
         parserCtx.SetSourceCode(source);
         
         var state = new CancellationState();
@@ -180,7 +180,7 @@ let = 5";
         Console.WriteLine();
 
         var lexResult = LexArithmetic(source);
-        var parserCtx = new BasicAParserContext(lexResult);
+        var parserCtx = new BasicAParserContext(lexResult) {SourceCode = source};
         parserCtx.SetSourceCode(source);
         
         var state = new CancellationState();

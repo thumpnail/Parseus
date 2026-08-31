@@ -42,7 +42,7 @@ public static class NanoScriptParserExample {
         var lexer = CreateNanoScriptLexer();
         var lexResult = lexer.Lex(source);
         Console.WriteLine("   ✓ " + lexResult.result.Count + " Tokens\n");
-        var parserCtx = new BasicAParserContext(lexResult.result);
+        var parserCtx = new BasicAParserContext(lexResult.result) {SourceCode = source};
         parserCtx.SetSourceCode(source);
         var state = new CancellationState();
         var ctx = new BaseParserContext(parserCtx, state);

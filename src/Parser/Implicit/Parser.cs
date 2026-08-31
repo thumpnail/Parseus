@@ -20,7 +20,6 @@ public abstract partial class BaseParser {
 	internal bool DEBUG = false;
 	internal LogLevel LogLevel = LogLevel.none;
 	internal static StreamWriter LogWriter = new StreamWriter("./log.txt");
-	internal AParserContext Context = new BasicAParserContext();
 	public abstract object Parse(string src);
 
 	//[MethodImpl(MethodImplOptions.AggressiveInlining)]
