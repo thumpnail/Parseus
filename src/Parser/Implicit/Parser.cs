@@ -1,3 +1,5 @@
+using System.Runtime.CompilerServices;
+
 using Parseus.Parser.Common;
 
 namespace Parseus.Parser.Implicit;
@@ -22,12 +24,12 @@ public abstract partial class BaseParser {
 	internal static StreamWriter LogWriter = new StreamWriter("./log.txt");
 	public abstract object Parse(string src);
 
-	//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected static void RepeatOpt(BaseParserContext ctx, Action<BaseParserContext> action, Action<bool> successCallback = null!, Action<(string errorLine, int line, int charInLine)> errorCallback = null!) {
 		Opt(ctx, c => Repeat(c, action, successCallback!, errorCallback!));
 	}
 
-	//[MethodImpl(MethodImplOptions.AggressiveInlining)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining)]
 	protected static void Repeat(BaseParserContext ctx, Action<BaseParserContext> action, Action<bool> successCallback = null!, Action<(string errorLine, int line, int charInLine)> errorCallback = null!) {
 		if (!ctx.IsOk) return;
 
@@ -57,7 +59,7 @@ public abstract partial class BaseParser {
 		successCallback?.Invoke(true);
 	}
 
-	//[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	protected static void Opt(BaseParserContext ctx, Action<BaseParserContext> action, Action<bool>? successCallback = null!, Action<(string errorLine, int line, int charInLine)>? errorCallback = null!) {
 		if (!ctx.IsOk) return;
 
@@ -72,13 +74,17 @@ public abstract partial class BaseParser {
 		successCallback?.Invoke(true);
 	}
 
-	//[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	protected static void Alt(BaseParserContext ctx, Action<BaseParserContext>[] actions, Action<bool> successCallback = null!, Action<(string errorLine, int line, int charInLine)> errorCallback = null!) {
 		if (!ctx.IsOk) return;
 
 		var cpos = ctx.Context.Pos;
 		var lastError = "";
 		foreach (var action in actions) {
+			if (!ctx.Context.HasMoreTokens()) {
+				ctx.State.Flag("End of stream");
+				return;
+			}
 			action.Invoke(ctx);
 			if (ctx.State.Ok) {
 				successCallback?.Invoke(true);
@@ -89,13 +95,15 @@ public abstract partial class BaseParser {
 			ctx.Context.Pos = cpos;
 			lastError = $"Alt failed: {ctx.Context.Pos}, {action.Method}";
 		}
-		ctx.State.Flag($"{lastError}");
+		var diagPack = GetLineNumberFromContinuosString(ctx.Context.SourceCode, ctx.Context.PeekToken());
+		ctx.State.Flag($"{CreateReportLine(ctx, diagPack, lastError)}");
 		errorCallback?.Invoke(GetErrorSpecifier(ctx));
 	}
 
 	/// <summary>
 	/// Executes a parsing block and, if it fails, rewinds the parser so the caller can recover by scanning to the next safe sync point.
 	/// </summary>
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	protected static void Resync(BaseParserContext ctx, Action<BaseParserContext> action, Action<bool>? successCallback = null!, Action<(string errorLine, int line, int charInLine)>? errorCallback = null!, params string[] syncTokens) {
 		if (!ctx.IsOk) return;
 
@@ -104,6 +112,7 @@ public abstract partial class BaseParser {
 			action.Invoke(ctx);
 		} catch (ParseException) {
 			ctx.Context.Pos = startPos;
+			// This is not feasable, since we still want errors from all synced code paths to not break parsing
 			ctx.State.FullReset();
 			errorCallback?.Invoke(GetErrorSpecifier(ctx));
 			SkipToSyncPoint(ctx, syncTokens);
@@ -123,6 +132,7 @@ public abstract partial class BaseParser {
 		successCallback?.Invoke(false);
 	}
 
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	private static void SkipToSyncPoint(BaseParserContext ctx, params string[] syncTokens) {
 		if (!ctx.Context.HasMoreTokens()) return;
 
@@ -145,12 +155,13 @@ public abstract partial class BaseParser {
 		}
 	}
 
-	//[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	protected internal static void Literal(BaseParserContext ctx, string literal, Action<bool> successCallback = null!, Action<(string errorLine, int line, int charInLine)> errorCallback = null!) {
 		if (!ctx.IsOk) return;
 
 		if (!ctx.Context.HasMoreTokens()) {
-			ctx.State.Flag($"Unexpected end of input in Literal at pos {ctx.Context.Pos}");
+			var diagPack = GetLineNumberFromContinuosString(ctx.Context.SourceCode, ctx.Context.PeekToken());
+			ctx.State.Flag($"{CreateReportLine(ctx, diagPack, $"Unexpected end of input in Literal at pos {ctx.Context.Pos}")}");
 			errorCallback?.Invoke(GetErrorSpecifier(ctx));
 			return;
 		}
@@ -160,19 +171,21 @@ public abstract partial class BaseParser {
 			ctx.Context.Consume();
 			successCallback?.Invoke(true);
 		} else {
-			ctx.State.Flag($"Literal failed at pos {ctx.Context.Pos}: expected '{literal}'");
+			var diagPack = GetLineNumberFromContinuosString(ctx.Context.SourceCode, ctx.Context.PeekToken());
+			ctx.State.Flag($"{CreateReportLine(ctx, diagPack, $"Literal failed at pos {ctx.Context.Pos}: expected '{literal}'")}");
 			errorCallback?.Invoke(GetErrorSpecifier(ctx));
 		}
 	}
 
-	//[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	protected static void Token(BaseParserContext ctx, string token, Action<string>? successCallback = null!, Action<(string errorLine, int line, int charInLine)>? errorCallback = null!) {
 		if (!ctx.IsOk) {
 			return;
 		}
 
 		if (!ctx.Context.HasMoreTokens()) {
-			ctx.State.Flag($"Unexpected end of input at pos {ctx.Context.Pos}, expected token '{token}'");
+			var diagPack = GetLineNumberFromContinuosString(ctx.Context.SourceCode, null);
+			ctx.State.Flag($"{CreateReportLine(ctx, diagPack, $"Unexpected end of input at pos {ctx.Context.Pos}, expected token '{token}'")}");
 			errorCallback?.Invoke(GetErrorSpecifier(ctx));
 			return;
 		}
@@ -181,12 +194,13 @@ public abstract partial class BaseParser {
 			var tk = ctx.Context.Consume();
 			successCallback?.Invoke(tk.Value);
 		} else {
-			ctx.State.Flag($"Unexpected end of input at pos {ctx.Context.Pos}, expected token '{token}'");
+			var diagPack = GetLineNumberFromContinuosString(ctx.Context.SourceCode, ctx.Context.PeekToken());
+			ctx.State.Flag($"{CreateReportLine(ctx, diagPack, $"Unexpected end of input at pos {ctx.Context.Pos}, expected token '{token}'")}");
 			errorCallback?.Invoke(GetErrorSpecifier(ctx));
 		}
 	}
 
-	//[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
+	[MethodImpl(MethodImplOptions.AggressiveInlining | MethodImplOptions.AggressiveOptimization)]
 	protected static void Node<T>(BaseParserContext ctx, Parser<T>? parser, Action<T>? successCallback = null, Action<(string errorLine, int line, int charInLine)>? errorCallback = null)
 		where T : new(), allows ref struct {
 		if (!ctx.IsOk || parser is null) {
@@ -197,7 +211,8 @@ public abstract partial class BaseParser {
 		var value = parser.Parse(ctx);
 		if (!ctx.IsOk) {
 			ctx.Context.Pos = cpos;
-			ctx.State.Flag($"Node<{typeof(T)}> failed: {ctx.Context}");
+			var diagPack = GetLineNumberFromContinuosString(ctx.Context.SourceCode, ctx.Context.PeekToken());
+			ctx.State.Flag($"{CreateReportLine(ctx, diagPack, $"Node<{typeof(T)}> failed: {ctx.Context}")}");
 			errorCallback?.Invoke(GetErrorSpecifier(ctx));
 		} else {
 			successCallback?.Invoke(value);

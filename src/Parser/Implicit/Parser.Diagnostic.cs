@@ -6,7 +6,7 @@ using Parseus.Parser.Common;
 namespace Parseus.Parser.Implicit;
 
 public partial class BaseParser {
-	public record DiagPack(int line, int pos, string sourceLine);
+	public record DiagPack(int line, int pos, TokenElement? token, string sourceLine);
 	protected static string CreateReportLine(BaseParserContext c, DiagPack pack, string msg) {
 		var sb = new StringBuilder();
 
@@ -17,7 +17,7 @@ public partial class BaseParser {
 		}
 
 		sb.AppendLine();
-		sb.AppendLine($"found: {c.Context.PeekToken().Value}");
+		sb.AppendLine($"found: {(pack.token?.Value ?? "null")}");
 		sb.AppendLine($"{msg}");
 		
 		return sb.ToString();
@@ -26,14 +26,17 @@ public partial class BaseParser {
 	/// Returns the current line number of the token by counting the new lines before the token
 	/// </summary>
 	/// <param name="input"></param>
+	/// <param name="token"></param>
 	/// <returns></returns>
-	protected static DiagPack GetLineNumberFromContinuosString(string input, TokenElement token) {
+	protected static DiagPack GetLineNumberFromContinuosString(string input, TokenElement? token) {
 		var chars = input.ToArray();
 		int res_line = 0;
 		int res_pos = 0;
 		List<char> tmp_resSource = new();
 
-		var cap = input.IndexOf(Environment.NewLine, token.Index, StringComparison.Ordinal);
+		var cap = token is not null 
+				? input.IndexOf(Environment.NewLine, token.Index, StringComparison.Ordinal)
+				: input.Length-1;
 		
 		for (int i = cap; i >= 0; i--) {
 			if (res_line == 0) {
@@ -49,6 +52,6 @@ public partial class BaseParser {
 		tmp_resSource.Reverse();
 		tmp_resSource.ForEach(x=> resSource += x);
 		resSource = resSource.Replace("\t", "");
-		return new(res_line+1, res_pos, resSource);
+		return new(res_line+1, res_pos, token, resSource);
 	}
 }

@@ -66,7 +66,7 @@ public class BasicAParserContext : AParserContext {
         }
         throw new ParseException("Unexpected end of input",$"{typeof(BasicAParserContext)}.Consume");
     }
-    public override TokenElement PeekToken(int offset = 0) {
+    public override TokenElement? PeekToken(int offset = 0) {
         if (Pos + offset < Tokens.Count()) {
             return Tokens[Pos + offset];
         }
