@@ -172,3 +172,42 @@ The [Ast](https://github.com/thumpnail/Parseus/blob/main/Ast.cs) contains the st
 
 ## Ast Generator
 The [AstGen](https://github.com/thumpnail/Parseus/blob/main/AstGen.cs) generates the AST from a linear string of token tuple. That is basically the Parser and I used a Stack- Based- Expression- Parser.
+
+## Code Formatter
+
+The `Parseus.Formatter` namespace provides configurable, line-oriented formatting for
+braces and other language constructs:
+
+```csharp
+using Parseus.Formatter;
+
+var formatter = new CodeFormatter()
+    .WithIndentation("  ")
+    .WithNewLine("\n")
+    .Block("{", "}")
+    .NewLineBefore("else", "catch")
+    .NewLineAfter(";", "{");
+
+var result = formatter.Format("if (ok) {\\nwork();\\n} else {\\nstop();\\n}");
+```
+
+Rules are marker-based and can be combined independently:
+
+```csharp
+formatter.AddRule(FormatterRule.IndentAfter("{"));
+formatter.AddRule(FormatterRule.DedentBefore("}"));
+formatter.AddRule(FormatterRule.NewLineBefore("else"));
+formatter.AddRule(FormatterRule.NewLineAfter(";"));
+```
+
+For parenthesized or S-expression source, use `SExpressionFormatter`:
+
+```csharp
+var sexpr = new SExpressionFormatter(new SExpressionFormatterOptions
+{
+    Indentation = "\t",
+    NewLine = "\n"
+}).Inline("param");
+
+var formatted = sexpr.Format("(mod main (imports (import core)(import io)))");
+```

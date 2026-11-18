@@ -10,9 +10,9 @@ public class CancellationState {
     
     public void FullReset() {
         Ok = true;
-        if (reasonStack.Count > 0) {
-            reasonStack.Clear();
-        }
+        //if (reasonStack.Count > 0) {
+        //    reasonStack.Clear();
+        //}
     }
     public void Flag(string reason) {
         Ok = false;
